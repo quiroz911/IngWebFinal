@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Enum_Role {
+  employee
+  leader
+  administrator
+  superuser
+}
+
+model User {
+  id    String    @id @default(cuid())
+  name  String
+  role  Enum_Role
+  email String
+
+  projectLeader   Project[]   @relation(name: "leader")
+  projectLeaderId String?
+  ProjectMember   Project[]   @relation(references: [id], name: "member")
+  projectMemberId String?
+  Department      Department? @relation(fields: [departmentId], references: [id])
+  departmentId    String?
+}
+
+model Project {
+  id           String      @id @default(cuid())
+  name         String
+  start_date   DateTime
+  end_date     DateTime
+  leader       User        @relation(fields: [id_leader], references: [id], name: "leader")
+  id_leader    String
+  employees    User[]      @relation(name: "member")
+  Department   Department? @relation(fields: [departmentId], references: [id])
+  departmentId String?
+  files        File[]
+}
+
+model Department {
+  id        String    @id @default(cuid())
+  name      String
+  employees User[]
+  id_leader String
+  projects  Project[]
+  userId    String
+}
+
+model File {
+  id        String   @id @default(cuid())
+  format    String
+  name      String
+  url       String
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}
