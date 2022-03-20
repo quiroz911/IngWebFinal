@@ -18,11 +18,10 @@ enum Enum_Role {
 }
 
 model User {
-  id    String    @id @default(cuid())
-  name  String
-  role  Enum_Role
-  email String
-
+  id              String      @id @default(cuid())
+  name            String
+  role            Enum_Role
+  email           String
   projectLeader   Project[]   @relation(name: "leader")
   projectLeaderId String?
   ProjectMember   Project[]   @relation(references: [id], name: "member")
