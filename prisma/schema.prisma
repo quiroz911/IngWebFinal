@@ -10,24 +10,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Enum_Role {
+enum Enum_RoleName {
   employee
   leader
   administrator
   superuser
 }
 
+model Page {
+  id        String   @id @default(cuid())
+  name      String
+  path      String   @unique
+  roles     Role[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id        String        @id @default(cuid())
+  name      Enum_RoleName @unique
+  users     User[]
+  pages     Page[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
 model User {
-  id              String      @id @default(cuid())
+  id              String        @id @default(cuid())
   name            String
-  role            Enum_Role
-  email           String
-  projectLeader   Project[]   @relation(name: "leader")
+  role            Enum_RoleName
+  email           String        @unique
+  projectLeader   Project[]     @relation(name: "leader")
   projectLeaderId String?
-  ProjectMember   Project[]   @relation(references: [id], name: "member")
+  ProjectMember   Project[]     @relation(references: [id], name: "member")
   projectMemberId String?
-  Department      Department? @relation(fields: [departmentId], references: [id])
+  Department      Department?   @relation(fields: [departmentId], references: [id])
   departmentId    String?
+  Role            Role?         @relation(fields: [roleId], references: [id])
+  roleId          String?
 }
 
 model Project {
