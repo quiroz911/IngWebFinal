@@ -15,12 +15,22 @@ const ProjectTypes = gql`
         #files: [File]
     }
 
+    input ProjectCreateInput{
+        name: String!
+        start_date: Date!
+        end_date: Date!
+        id_leader: String!
+    }
+
     type Query{
         getProjects: [Project]
+        getProject: Project
     }
 
     type Mutation{
-        createProject(name: !String, start_date: !Date): Project
+        createProject(data: ProjectCreateInput!): Project
+        updateProject(where:ProjectFiterId!): Project
+        deleteProject(where:ProjectFiterId!): Project
     }
 `;
 
