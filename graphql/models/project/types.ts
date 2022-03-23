@@ -15,14 +15,6 @@ const ProjectTypes = gql`
         #files: [File]
     }
 
-    input DateEditField {
-    set: Date
-  }
-
-  input StringEditField {
-    set: String
-  }
-
     input ProjectUpdateInput{
         name: StringEditField
         start_date: DateEditField
