@@ -36,17 +36,16 @@ model Role {
 }
 
 model User {
-  id              String        @id @default(cuid())
+  id              String      @id @default(cuid())
   name            String
-  role            Enum_RoleName
-  email           String        @unique
-  projectLeader   Project[]     @relation(name: "leader")
+  email           String      @unique
+  projectLeader   Project[]   @relation(name: "leader")
   projectLeaderId String?
-  ProjectMember   Project[]     @relation(references: [id], name: "member")
+  ProjectMember   Project[]   @relation(references: [id], name: "member")
   projectMemberId String?
-  Department      Department?   @relation(fields: [departmentId], references: [id])
+  Department      Department? @relation(fields: [departmentId], references: [id])
   departmentId    String?
-  Role            Role?         @relation(fields: [roleId], references: [id])
+  role            Role?       @relation(fields: [roleId], references: [id])
   roleId          String?
 }
 
