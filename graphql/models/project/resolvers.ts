@@ -19,12 +19,34 @@ const ProjectResolvers = {
         createProject: async (parent, args) => {
             return await prisma.project.create({
                 data:{
-                    name:args.data.name,
-                    start_date:args.data.start_date,
-                    end_date:args.data.end_date,
-                    id_leader:args.data.id_leader,
+                    ...args.data,
+                    start_date: new Date(args.data.start_date),
+                    end_date: new Date(args.data.end_date),
                 }
             })
+        },
+        updateProject: async(parent, args) => {
+            return await prisma.project.update({
+                where: { ...args.where },
+                data: {
+                    ...args.data,
+                    ...(args.data.start_date && {
+                        start_date: {
+                            set: new Date(args.data.start_date.set),
+                        }
+                    }),
+                    ...(args.data.end_date && {
+                        end_date: {
+                            set: new Date(args.data.end_date.set),
+                        }
+                    }),
+                },
+            })
+        },
+        deleteProject: async (parent,args) => {
+            return await prisma.project.delete({
+                where: { ...args.where },
+            });
         }
     }
 };
