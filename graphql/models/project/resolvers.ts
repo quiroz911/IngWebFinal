@@ -3,6 +3,40 @@ import { argsToArgsConfig } from "graphql/type/definition";
 
 
 const ProjectResolvers = {
+    Project: {
+        leader: async (parent, args) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.id_leader,
+                },
+            });
+        },
+        /*files: async (parent, args) => {
+            return await prisma.file.findMany({
+                where: {
+                    projectId: parent.id,
+                },
+            });
+        },*/
+        /*Department: async (parent, args) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.departmentId,
+                },
+            });
+        },*/
+        employees: async (parent, args) => {
+            return await prisma.user.findMany({
+                where: {
+                    ProjectMember:{
+                        some: {
+                            id: parent.id,
+                        }
+                    }
+                },
+            });
+        },
+    },
     Query: {
         getProjects: async (parent, args) => {
             return await prisma.project.findMany({});
@@ -10,7 +44,7 @@ const ProjectResolvers = {
         getProject: async (parent, args) => {
             return await prisma.project.findUnique({
                 where: {
-                    id: args.id,
+                    ...args.where,
                 },
             });
         },
