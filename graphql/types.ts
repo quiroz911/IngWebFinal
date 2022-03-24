@@ -1,7 +1,8 @@
-import { gql } from "apollo-server-micro";
-import { UserTypes } from "graphql/models/users/types";
-import { ProfileTypes } from "graphql/models/profile/types";
-import { RoleTypes } from "graphql/models/role/types";
+import { gql } from 'apollo-server-micro';
+import { UserTypes } from 'graphql/models/users/types';
+import { ProfileTypes } from 'graphql/models/profile/types';
+import { RoleTypes } from 'graphql/models/role/types';
+import { ProjectTypes } from 'graphql/models/project/types';
 
 const genericTypes = gql`
   scalar Date
@@ -21,6 +22,16 @@ const genericTypes = gql`
   input DateEditField {
     set: Date
   }
+
+  input ProjectFiterId{
+    id: String!
+  }
 `;
 
-export const types = [genericTypes, UserTypes, RoleTypes, ProfileTypes];
+export const types = [
+  genericTypes,
+  UserTypes,
+  RoleTypes,
+  ProfileTypes,
+  ProjectTypes
+];
