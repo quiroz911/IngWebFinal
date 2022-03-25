@@ -10,6 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 enum Enum_RoleName {
   employee
   leader
@@ -36,18 +63,21 @@ model Role {
 }
 
 model User {
-  id              String        @id @default(cuid())
-  name            String
-  role            Enum_RoleName
-  email           String        @unique
-  projectLeader   Project[]     @relation(name: "leader")
+  id              String      @id @default(cuid())
+  name            String?
+  email           String?     @unique
+  emailVerified   DateTime?
+  image           String?
+  projectLeader   Project[]   @relation(name: "leader")
   projectLeaderId String?
-  ProjectMember   Project[]     @relation(references: [id], name: "member")
+  ProjectMember   Project[]   @relation(references: [id], name: "member")
   projectMemberId String?
-  Department      Department?   @relation(fields: [departmentId], references: [id])
+  Department      Department? @relation(fields: [departmentId], references: [id])
   departmentId    String?
-  Role            Role?         @relation(fields: [roleId], references: [id])
+  role            Role?       @relation(fields: [roleId], references: [id])
   roleId          String?
+  accounts        Account[]
+  sessions        Session[]
 }
 
 model Project {
@@ -79,4 +109,12 @@ model File {
   url       String
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId String?
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
