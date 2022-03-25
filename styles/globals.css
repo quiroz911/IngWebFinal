@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button-primary {
+    @apply bg-indigo-500 py-1 px-2 text-white rounded-lg shadow-xl hover:bg-indigo-800 cursor-pointer;
+}
