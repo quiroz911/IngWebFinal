@@ -1,12 +1,17 @@
 import { useQuery } from '@apollo/client';
+import { GET_PROJECTS } from 'graphql/queries/projects';
 import Link from 'next/link';
 import React from 'react'
 
 const index = () => {
-    // const { data, loading } = useQuery(GET_CLIENTES, {
-    //     fetchPolicy: 'cache-and-network',
-    //   });
+    const { data, loading } = useQuery(GET_PROJECTS, {
+        fetchPolicy: 'cache-and-network',
+      });
       
+  if(loading) return(
+    <div>loading...</div>
+  )
+
   return (
     <div className='flex flex-col items-center p-10'>
       
@@ -29,8 +34,8 @@ const index = () => {
            
           </thead>
           <tbody>
-            {/* {data.getClients.map((c) => (
-              <Cliente key={c.id} client={c} />
+            {/* {data.getProjects.map((c) => (
+              <div key={c.id}>{c.id} = {c.name}</div>
             ))} */}
           </tbody>
         </table>

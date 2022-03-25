@@ -5,3 +5,31 @@
 .button-primary {
     @apply bg-indigo-500 py-1 px-2 text-white rounded-lg shadow-xl hover:bg-indigo-800 cursor-pointer;
 }
+
+table {
+    width: 100%;
+    margin: 10px;
+    overflow-y: scroll;
+  }
+  
+  table td,
+  table th {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: green;
+    color: white;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  table tr:hover {
+    background-color: #ddd;
+  }
