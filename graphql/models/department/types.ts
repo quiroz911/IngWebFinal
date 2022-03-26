@@ -7,6 +7,7 @@ const DepartmentTypes = gql`
         name: String
         employees: [User]
         departmentLeaderId: String
+        leader: User
         projects: [Project]
         userId: String
     }
