@@ -2,63 +2,76 @@ import prisma from "config/prisma";
 import { argsToArgsConfig } from "graphql/type/definition";
 
 
-const ProjectResolvers = {
-    Query: {
-        getProjects: async (parent, args) => {
-            return await prisma.project.findMany({});
+const DepartmentResolvers = {
+    Department: {
+        projects: async (parent, args) => {
+            return await prisma.project.findMany({
+                where: {
+                    departmentId: parent.id
+                },
+            });
         },
-        getProject: async (parent, args) => {
-            return await prisma.project.findUnique({
+        /*files: async (parent, args) => {
+            return await prisma.file.findMany({
+                where: {
+                    projectId: parent.id,
+                },
+            });
+        },*/
+        /*Department: async (parent, args) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.departmentId,
+                },
+            });
+        },*/
+        employees: async (parent, args) => {
+            return await prisma.user.findMany({
+                where: {
+                    departmentId: parent.id
+                },
+            });
+        },
+    },
+    Query: {
+        getDepartments: async (parent, args) => {
+            return await prisma.department.findMany({});
+        },
+        getDepartment: async (parent, args) => {
+            return await prisma.department.findUnique({
                 where: { ...args.where },
+            });
+        },
+        getDepartmentLeader: async (parent, args) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.id_leader
+                },
             });
         },
     },
     Mutation: {
-        createProject: async (parent, args) => {
-            return await prisma.project.create({
+        createDepartment: async (parent, args) => {
+            return await prisma.department.create({
                 data:{
                     ...args.data,
-                    start_date: new Date(args.data.start_date),
-                    end_date: new Date(args.data.end_date),
                 }
             })
         },
-        updateProject: async(parent, args) => {
-            return await prisma.project.update({
+        updateDepartment: async(parent, args) => {
+            return await prisma.department.update({
                 where: { ...args.where },
                 data: {
                     ...args.data,
-                    ...(args.data.start_date && {
-                        start_date: {
-                            set: new Date(args.data.start_date.set),
-                        }
-                    }),
-                    ...(args.data.end_date && {
-                        end_date: {
-                            set: new Date(args.data.end_date.set),
-                        }
-                    }),
                 },
             })
         },
-        addProjectEmployee: async(parent, args) => {
-            return await prisma.project.update({
-                where: { ...args.where },
-                data: {
-                    employees: {
-                        connect: {
-                            id: "cl12znfi50032fcvbhn867m81"
-                        }
-                    }
-                },
-            })
-        },
-        deleteProject: async (parent,args) => {
-            return await prisma.project.delete({
+        deleteDepartment: async (parent,args) => {
+            return await prisma.department.delete({
                 where: { ...args.where },
             });
         }
     }
 };
 
-export {ProjectResolvers};
+export {DepartmentResolvers};

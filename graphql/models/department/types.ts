@@ -5,7 +5,7 @@ const DepartmentTypes = gql`
     type Department{
         id: String
         name: String
-        employees: User[]
+        employees: [User]
         id_leader: String
         projects: [Project]
         userId: String
@@ -17,13 +17,14 @@ const DepartmentTypes = gql`
     }
 
     input DepartmentCreateInput{
-        name: StringEditField
-        id_leader: StringEditField
+        name: StringEditField!
+        id_leader: StringEditField!
     }
 
     type Query{
         getDepartments: [Department]
         getDepartment(where: FilterId!): Department
+        getDepartmentLeader: User
     }
 
     type Mutation{

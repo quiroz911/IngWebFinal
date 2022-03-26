@@ -89,6 +89,20 @@ const ProjectResolvers = {
                   }
             })
         },
+        removeProjectEmployee: async(parent, args) => {
+            return await prisma.project.update({
+                where: {
+                    ...args.where
+                  },
+                  data: {
+                    employees: {
+                        disconnect: {
+                        ...args.data
+                      },
+                    }
+                  }
+            })
+        },
         deleteProject: async (parent,args) => {
             return await prisma.project.delete({
                 where: { ...args.where },

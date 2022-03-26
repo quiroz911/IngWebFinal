@@ -38,6 +38,7 @@ const ProjectTypes = gql`
         createProject(data: ProjectCreateInput!): Project
         updateProject(where: FilterId!, data: ProjectUpdateInput!): Project
         addProjectEmployee(where:FilterId!, data: FilterId!): Project
+        removeProjectEmployee(where:FilterId!, data: FilterId!): Project
         deleteProject(where:FilterId!): Project
     }
 `;
