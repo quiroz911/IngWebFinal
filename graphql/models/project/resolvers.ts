@@ -83,7 +83,7 @@ const ProjectResolvers = {
                   data: {
                     employees: {
                       connect: {
-                        id: args.aidi
+                        ...args.data
                       },
                     }
                   }
