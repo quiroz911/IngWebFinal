@@ -3,43 +3,27 @@ import { gql } from "apollo-server-micro";
 const DepartmentTypes = gql`
 
     type Department{
-        id: ID
+        id: String
         name: String
-        start_date: Date 
-        end_date: Date
-        leader: User
+        employees: User[]
         id_leader: String
-        employees: [User]
-        #Department: Department
-        departmentId: String
-        #files: [File]
-    }
-
-    input DateEditField {
-        set: Date
-    }
-
-    input StringEditField {
-        set: String
+        projects: [Project]
+        userId: String
     }
 
     input DepartmentUpdateInput{
         name: StringEditField
-        start_date: DateEditField
-        end_date: DateEditField
         id_leader: StringEditField
     }
 
     input DepartmentCreateInput{
-        name: String!
-        start_date: Date!
-        end_date: Date!
-        id_leader: String!
+        name: StringEditField
+        id_leader: StringEditField
     }
 
     type Query{
         getDepartments: [Department]
-        getDepartment: Department
+        getDepartment(where: FilterId!): Department
     }
 
     type Mutation{

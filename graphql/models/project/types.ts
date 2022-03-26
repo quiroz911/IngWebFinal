@@ -15,14 +15,6 @@ const ProjectTypes = gql`
         #files: [File]
     }
 
-    input DateEditField {
-        set: Date
-    }
-
-    input StringEditField {
-        set: String
-    }
-
     input ProjectUpdateInput{
         name: StringEditField
         start_date: DateEditField
@@ -37,19 +29,15 @@ const ProjectTypes = gql`
         id_leader: String!
     }
 
-    input FilterId{
-        id: String!
-    }
-
     type Query{
         getProjects: [Project]
-        getProject: Project
+        getProject(where: FilterId!): Project
     }
 
     type Mutation{
         createProject(data: ProjectCreateInput!): Project
         updateProject(where: FilterId!, data: ProjectUpdateInput!): Project
-        addProjectEmployee(where:FilterId!): Project
+        addProjectEmployee(where:FilterId!, aidi: String!): Project
         deleteProject(where:FilterId!): Project
     }
 `;

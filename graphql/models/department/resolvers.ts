@@ -9,9 +9,7 @@ const ProjectResolvers = {
         },
         getProject: async (parent, args) => {
             return await prisma.project.findUnique({
-                where: {
-                    id: args.id,
-                },
+                where: { ...args.where },
             });
         },
     },
