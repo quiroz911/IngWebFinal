@@ -23,9 +23,10 @@ const genericTypes = gql`
     set: Date
   }
 
-  input ProjectFiterId{
+  input FilterId{
     id: String!
   }
+  
 `;
 
 export const types = [

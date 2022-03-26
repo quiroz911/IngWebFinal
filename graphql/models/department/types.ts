@@ -1,8 +1,8 @@
 import { gql } from "apollo-server-micro";
 
-const ProjectTypes = gql`
+const DepartmentTypes = gql`
 
-    type Project{
+    type Department{
         id: ID
         name: String
         start_date: Date 
@@ -23,35 +23,30 @@ const ProjectTypes = gql`
         set: String
     }
 
-    input ProjectUpdateInput{
+    input DepartmentUpdateInput{
         name: StringEditField
         start_date: DateEditField
         end_date: DateEditField
         id_leader: StringEditField
     }
 
-    input ProjectCreateInput{
+    input DepartmentCreateInput{
         name: String!
         start_date: Date!
         end_date: Date!
         id_leader: String!
     }
 
-    input FilterId{
-        id: String!
-    }
-
     type Query{
-        getProjects: [Project]
-        getProject: Project
+        getDepartments: [Department]
+        getDepartment: Department
     }
 
     type Mutation{
-        createProject(data: ProjectCreateInput!): Project
-        updateProject(where: FilterId!, data: ProjectUpdateInput!): Project
-        addProjectEmployee(where:FilterId!): Project
-        deleteProject(where:FilterId!): Project
+        createDepartment(data: DepartmentCreateInput!): Department
+        updateDepartment(where: FilterId!, data: DepartmentUpdateInput!): Department
+        deleteDepartment(where:FilterId!): Department
     }
 `;
 
-export {ProjectTypes};
+export {DepartmentTypes};
