@@ -11,20 +11,20 @@ const DepartmentResolvers = {
                 },
             });
         },
-        /*files: async (parent, args) => {
-            return await prisma.file.findMany({
-                where: {
-                    projectId: parent.id,
-                },
-            });
-        },*/
-        /*Department: async (parent, args) => {
+        /*leader: async (parent, args) => {
             return await prisma.user.findUnique({
                 where: {
-                    id: parent.departmentId,
+                    id: parent.departmentLeaderId
                 },
             });
         },*/
+        leader: async (parent, args) => {
+            return await prisma.user.findUnique({
+                where: {
+                    id: parent.departmentLeaderId,
+                },
+            });
+        },
         employees: async (parent, args) => {
             return await prisma.user.findMany({
                 where: {
@@ -40,13 +40,6 @@ const DepartmentResolvers = {
         getDepartment: async (parent, args) => {
             return await prisma.department.findUnique({
                 where: { ...args.where },
-            });
-        },
-        getDepartmentLeader: async (parent, args) => {
-            return await prisma.user.findUnique({
-                where: {
-                    id: parent.id_leader
-                },
             });
         },
     },

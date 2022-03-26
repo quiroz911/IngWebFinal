@@ -74,7 +74,7 @@ model User {
   projectMemberId    String?
   Department         Department? @relation(fields: [departmentId], references: [id], name: "employees")
   departmentId       String?
-  departmentLeader   Department?  @relation(name: "deparLeader", references: [id], fields: [departmentLeaderId])
+  departmentLeader   Department?  @relation(name: "deparLeader")
   departmentLeaderId String?
   role               Role?       @relation(fields: [roleId], references: [id])
   roleId             String?
@@ -99,8 +99,8 @@ model Department {
   id        String    @id @default(cuid())
   name      String
   employees User[]    @relation(name: "employees")
-  id_leader String
-  leader    User?      @relation(name: "deparLeader")
+  departmentLeaderId String
+  leader    User      @relation(name: "deparLeader", references: [id], fields: [departmentLeaderId])
   projects  Project[]
   userId    String
 }

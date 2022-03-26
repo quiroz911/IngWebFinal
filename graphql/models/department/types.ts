@@ -6,25 +6,24 @@ const DepartmentTypes = gql`
         id: String
         name: String
         employees: [User]
-        id_leader: String
+        departmentLeaderId: String
         projects: [Project]
         userId: String
     }
 
     input DepartmentUpdateInput{
-        name: StringEditField
-        id_leader: StringEditField
+        name: String!
+        departmentLeaderId: String!
     }
 
     input DepartmentCreateInput{
-        name: StringEditField!
-        id_leader: StringEditField!
+        name: String!
+        departmentLeaderId: String!
     }
 
     type Query{
         getDepartments: [Department]
         getDepartment(where: FilterId!): Department
-        getDepartmentLeader: User
     }
 
     type Mutation{
