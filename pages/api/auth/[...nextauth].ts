@@ -8,6 +8,7 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     Auth0Provider({
+      wellKnown: "https://proyecto-final-ing-web.us.auth0.com",
       clientId: process.env.AUTH0_CLIENT_ID,
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
       issuer: process.env.AUTH0_ISSUER,
