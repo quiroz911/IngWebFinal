@@ -8,6 +8,13 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { ButtonLoading } from "@components/ButtonLoading";
 import PrivateComponent from "@components/PrivateComponent";
+import { matchRoles } from "utils/matchRoles";
+
+export async function getServerSideProps(context) {
+  return {
+    props: { ...(await matchRoles(context)) },
+  };
+}
 
 const newProject = () => {
   const router = useRouter();

@@ -9,6 +9,7 @@ import {
 } from "@apollo/client";
 import { PublicLayout } from "../layout/PublicLayout";
 import { SessionProvider } from "next-auth/react";
+import NotAuthorized from "@components/NotAuthorized";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -21,6 +22,9 @@ const client = new ApolloClient({
 });
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  if (!pageProps.auth) {
+    return <NotAuthorized />;
+  }
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
