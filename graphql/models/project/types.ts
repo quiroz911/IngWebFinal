@@ -7,12 +7,19 @@ const ProjectTypes = gql`
         name: String
         start_date: Date 
         end_date: Date
-        #leader: User
+        leader: User
         id_leader: String
-        #employees: [User]
+        employees: [User]
         #Department: Department
         departmentId: String
         #files: [File]
+    }
+
+    input ProjectUpdateInput{
+        name: StringEditField
+        start_date: DateEditField
+        end_date: DateEditField
+        id_leader: StringEditField
     }
 
     input ProjectCreateInput{
@@ -29,7 +36,7 @@ const ProjectTypes = gql`
 
     type Mutation{
         createProject(data: ProjectCreateInput!): Project
-        updateProject(where:ProjectFiterId!): Project
+        updateProject(where:ProjectFiterId!, data: ProjectUpdateInput!): Project
         deleteProject(where:ProjectFiterId!): Project
     }
 `;
