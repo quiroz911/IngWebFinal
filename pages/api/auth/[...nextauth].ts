@@ -5,6 +5,24 @@ import prisma from "config/prisma";
 
 export default NextAuth({
   // Configure one or more authentication providers
+  callbacks: {
+    async session(session) {
+      const modifiedSession = (await prisma.session.findFirst({
+        where: {
+          userId: session.user.id,
+        },
+        include: {
+          user: {
+            include: {
+              role: true,
+              // profile: true,
+            },
+          },
+        },
+      })) as any;
+      return modifiedSession;
+    },
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     Auth0Provider({

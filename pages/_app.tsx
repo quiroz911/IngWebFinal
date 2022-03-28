@@ -14,23 +14,26 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: from([
     new HttpLink({
+      // uri: 'https://gestion-proyectos.vercel.app/api/graphql',
       uri: "http://localhost:3000/api/graphql",
     }),
   ]),
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <div>
-        <head>
-          <title>Proyecto final</title>
-        </head>
-        <PublicLayout>
-          <Component {...pageProps} />
-        </PublicLayout>
-      </div>
-    </ApolloProvider>
+    <SessionProvider session={session}>
+      <ApolloProvider client={client}>
+        <div>
+          <head>
+            <title>Proyecto final</title>
+          </head>
+          <PublicLayout>
+            <Component {...pageProps} />
+          </PublicLayout>
+        </div>
+      </ApolloProvider>
+    </SessionProvider>
   );
 }
 
