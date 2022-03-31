@@ -43,9 +43,7 @@ const ProjectResolvers = {
         },
         getProject: async (parent, args) => {
             return await prisma.project.findUnique({
-                where: {
-                    ...args.where,
-                },
+                where: { ...args.where },
             });
         },
     },
@@ -75,6 +73,34 @@ const ProjectResolvers = {
                         }
                     }),
                 },
+            })
+        },
+        addProjectEmployee: async(parent, args) => {
+            return await prisma.project.update({
+                where: {
+                    ...args.where
+                  },
+                  data: {
+                    employees: {
+                      connect: {
+                        ...args.data
+                      },
+                    }
+                  }
+            })
+        },
+        removeProjectEmployee: async(parent, args) => {
+            return await prisma.project.update({
+                where: {
+                    ...args.where
+                  },
+                  data: {
+                    employees: {
+                        disconnect: {
+                        ...args.data
+                      },
+                    }
+                  }
             })
         },
         deleteProject: async (parent,args) => {
