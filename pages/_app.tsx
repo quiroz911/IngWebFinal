@@ -8,28 +8,31 @@ import {
   ApolloProvider,
 } from "@apollo/client";
 import { PublicLayout } from "../layout/PublicLayout";
+import { SessionProvider } from "next-auth/react";
+import NotAuthorized from "@components/NotAuthorized";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: from([
     new HttpLink({
+      // uri: 'https://gestion-proyectos.vercel.app/api/graphql',
       uri: "http://localhost:3000/api/graphql",
     }),
   ]),
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <div>
+    <SessionProvider session={session}>
+      <ApolloProvider client={client}>
         <head>
           <title>Proyecto final</title>
         </head>
-        <PublicLayout>
+        <PublicLayout pageAuth={pageProps.auth}>
           <Component {...pageProps} />
         </PublicLayout>
-      </div>
-    </ApolloProvider>
+      </ApolloProvider>
+    </SessionProvider>
   );
 }
 
