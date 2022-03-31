@@ -22,20 +22,15 @@ const client = new ApolloClient({
 });
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  if (!pageProps.auth) {
-    return <NotAuthorized />;
-  }
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <div>
-          <head>
-            <title>Proyecto final</title>
-          </head>
-          <PublicLayout>
-            <Component {...pageProps} />
-          </PublicLayout>
-        </div>
+        <head>
+          <title>Proyecto final</title>
+        </head>
+        <PublicLayout pageAuth={pageProps.auth}>
+          <Component {...pageProps} />
+        </PublicLayout>
       </ApolloProvider>
     </SessionProvider>
   );
