@@ -48,7 +48,7 @@ model Page {
   id        String   @id @default(cuid())
   name      String
   path      String   @unique
-  roles     Role[]
+  roles     Role[]   @relation(references: [id], name: "role-page")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -56,11 +56,10 @@ model Page {
 model Role {
   id        String        @id @default(cuid())
   name      Enum_RoleName @unique
-  users     User[]
-  pages     Page[]
+  users     User[]        @relation(name: "roles")
+  pages     Page[]        @relation(name: "role-page")
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-
 }
 
 model User {
@@ -69,15 +68,13 @@ model User {
   email              String?     @unique
   emailVerified      DateTime?
   image              String?
-  projectLeader      Project[]   @relation(name: "leader")
-  projectLeaderId    String?
-  ProjectMember      Project[]   @relation(references: [id], name: "member")
-  projectMemberId    String?
+  projectLeader      Project[]   @relation(name: "project-leader")
+  ProjectMember      Project[]   @relation(references: [id], name: "project-member")
   Department         Department? @relation(fields: [departmentId], references: [id], name: "employees")
   departmentId       String?
   departmentLeader   Department? @relation(name: "deparLeader")
   departmentLeaderId String?
-  role               Role?       @relation(fields: [roleId], references: [id])
+  role               Role?       @relation(fields: [roleId], references: [id], name: "roles")
   roleId             String?
   accounts           Account[]
   sessions           Session[]
@@ -90,12 +87,12 @@ model Project {
   name         String
   start_date   DateTime
   end_date     DateTime
-  leader       User        @relation(fields: [id_leader], references: [id], name: "leader")
-  id_leader    String
-  employees    User[]      @relation(name: "member")
-  Department   Department? @relation(fields: [departmentId], references: [id])
+  leader       User?        @relation(fields: [id_leader], references: [id], name: "project-leader")
+  id_leader    String?
+  employees    User[]      @relation(name: "project-member")
+  Department   Department? @relation(fields: [departmentId], references: [id], name: "project-department")
   departmentId String?
-  files        File[]
+  files        File[]      @relation(name: "project-files")
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -106,7 +103,7 @@ model Department {
   employees          User[]    @relation(name: "employees")
   departmentLeaderId String    @unique
   leader             User      @relation(name: "deparLeader", references: [id], fields: [departmentLeaderId])
-  projects           Project[]
+  projects           Project[] @relation(name: "project-department")
   userId             String
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -117,7 +114,7 @@ model File {
   format    String
   name      String
   url       String
-  Project   Project? @relation(fields: [projectId], references: [id])
+  Project   Project? @relation(fields: [projectId], references: [id], name: "project-files")
   projectId String?
 }
 

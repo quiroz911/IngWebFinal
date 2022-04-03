@@ -13,6 +13,8 @@ const ProjectTypes = gql`
         #Department: Department
         departmentId: String
         #files: [File]
+        createdAt: Date
+        updatedAt: Date
     }
 
     input ProjectUpdateInput{
@@ -26,7 +28,6 @@ const ProjectTypes = gql`
         name: String!
         start_date: Date!
         end_date: Date!
-        id_leader: String!
     }
 
     type Query{

@@ -2,14 +2,23 @@ import { gql } from 'apollo-server-micro';
 
 const UserTypes = gql`
   type User {
-    id: ID
+    id: String
     name: String
     email: String
-    image: String
-    role: Role
     emailVerified: Date
-    # isProjectLeaderOf: [Project]
-    profile: Profile
+    image: String
+    projectLeader: [Project]
+    projectLeaderId: String
+    ProjectMember: [Project]
+    projectMemberId: String
+    Department: Department
+    departmentId: String
+    departmentLeader: Department
+    departmentLeaderId: String
+    role: Role
+    roleId: String
+    accounts: [Account]
+    session: [Session]
     createdAt: Date
     updatedAt: Date
   }
