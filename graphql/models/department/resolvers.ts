@@ -57,6 +57,7 @@ const DepartmentResolvers = {
                 data: {
                     ...args.data,
                 },
+                // usar connect
             })
         },
         deleteDepartment: async (parent,args) => {

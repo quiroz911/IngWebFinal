@@ -69,11 +69,10 @@ model User {
   emailVerified      DateTime?
   image              String?
   projectLeader      Project[]   @relation(name: "project-leader")
-  ProjectMember      Project[]   @relation(references: [id], name: "project-member")
-  Department         Department? @relation(fields: [departmentId], references: [id], name: "employees")
+  projectMember      Project[]   @relation(references: [id], name: "project-member")
+  department         Department? @relation(fields: [departmentId], references: [id], name: "employees")
   departmentId       String?
-  departmentLeader   Department? @relation(name: "deparLeader")
-  departmentLeaderId String?
+  departmentLeader   Department[] @relation(name: "deparLeader")
   role               Role?       @relation(fields: [roleId], references: [id], name: "roles")
   roleId             String?
   accounts           Account[]
@@ -90,7 +89,7 @@ model Project {
   leader       User?        @relation(fields: [id_leader], references: [id], name: "project-leader")
   id_leader    String?
   employees    User[]      @relation(name: "project-member")
-  Department   Department? @relation(fields: [departmentId], references: [id], name: "project-department")
+  department   Department? @relation(fields: [departmentId], references: [id], name: "project-department")
   departmentId String?
   files        File[]      @relation(name: "project-files")
   createdAt    DateTime    @default(now())
@@ -104,7 +103,6 @@ model Department {
   departmentLeaderId String    @unique
   leader             User      @relation(name: "deparLeader", references: [id], fields: [departmentLeaderId])
   projects           Project[] @relation(name: "project-department")
-  userId             String
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
@@ -114,7 +112,7 @@ model File {
   format    String
   name      String
   url       String
-  Project   Project? @relation(fields: [projectId], references: [id], name: "project-files")
+  project   Project? @relation(fields: [projectId], references: [id], name: "project-files")
   projectId String?
 }
 

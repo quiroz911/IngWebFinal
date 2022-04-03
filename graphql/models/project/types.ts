@@ -17,6 +17,9 @@ const ProjectTypes = gql`
         updatedAt: Date
     }
 
+    # cada que se vaya a agregar un empleado a un proyecto se debe añadir 
+    # editando el array employees de proyecto
+
     input ProjectUpdateInput{
         name: StringEditField
         start_date: DateEditField

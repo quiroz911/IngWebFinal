@@ -2,17 +2,16 @@ import { gql } from "apollo-server-micro";
 
 const UserTypes = gql`
   type User {
-    id: String
+    id: ID
     name: String
     email: String
     emailVerified: Date
     image: String
     projectLeader: [Project]
-    ProjectMember: [Project]
-    Department: Department
+    projectMember: [Project]
+    department: Department
     departmentId: String
-    departmentLeader: Department
-    departmentLeaderId: String
+    departmentLeader: [Department]
     role: Role
     roleId: String
     #accounts: [Account]
@@ -21,19 +20,30 @@ const UserTypes = gql`
     updatedAt: Date
   }
 
-  input DepartmentUpdateInput{
-        name: String!
-        departmentLeaderId: String!
+    input UserUpdateInput{
+        name: String
+        email: String
+        image: String
+        departmentId: String
+        roleId: String
+        departmentLeaderId: String
     }
 
-    input DepartmentCreateInput{
+    input UserCreateInput{
         name: String!
-        departmentLeaderId: String!
+        email: String!
+        roleId: String!
     }
 
     type Query{
-        getDepartments: [Department]
-        getDepartment(where: FilterId!): Department
+        getUsers: [User]
+        getUser(where: FilterId!): User
+    }
+
+    type Mutation{
+        createUser(data: UserCreateInput!): User
+        updateUser(where: FilterId!, data: UserUpdateInput!): User
+        deleteUser(where: FilterId!): User
     }
 `;
 

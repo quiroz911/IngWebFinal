@@ -3,18 +3,17 @@ import { gql } from "apollo-server-micro";
 const DepartmentTypes = gql`
 
     type Department{
-        id: String
+        id: ID
         name: String
         employees: [User]
         departmentLeaderId: String
         leader: User
         projects: [Project]
-        userId: String
     }
 
     input DepartmentUpdateInput{
-        name: String!
-        departmentLeaderId: String!
+        name: String
+        departmentLeaderId: String
     }
 
     input DepartmentCreateInput{
