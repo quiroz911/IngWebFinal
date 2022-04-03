@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-micro';
+import { gql } from "apollo-server-micro";
 
 const UserTypes = gql`
   type User {
@@ -8,25 +8,33 @@ const UserTypes = gql`
     emailVerified: Date
     image: String
     projectLeader: [Project]
-    projectLeaderId: String
     ProjectMember: [Project]
-    projectMemberId: String
     Department: Department
     departmentId: String
     departmentLeader: Department
     departmentLeaderId: String
     role: Role
     roleId: String
-    accounts: [Account]
-    session: [Session]
+    #accounts: [Account]
+    #sessions: [Session]
     createdAt: Date
     updatedAt: Date
   }
 
-  type Query {
-    getUsers: [User]
-    getUser(email: String!): User
-  }
+  input DepartmentUpdateInput{
+        name: String!
+        departmentLeaderId: String!
+    }
+
+    input DepartmentCreateInput{
+        name: String!
+        departmentLeaderId: String!
+    }
+
+    type Query{
+        getDepartments: [Department]
+        getDepartment(where: FilterId!): Department
+    }
 `;
 
 export { UserTypes };
