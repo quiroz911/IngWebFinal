@@ -24,9 +24,7 @@ const UserTypes = gql`
         name: String
         email: String
         image: String
-        departmentId: String
         roleId: String
-        departmentLeaderId: String
     }
 
     input UserCreateInput{
@@ -36,7 +34,7 @@ const UserTypes = gql`
     }
 
     type Query{
-        getUsers: [User]
+        getUsers(email: String): [User]
         getUser(where: FilterId!): User
     }
 
@@ -44,6 +42,8 @@ const UserTypes = gql`
         createUser(data: UserCreateInput!): User
         updateUser(where: FilterId!, data: UserUpdateInput!): User
         deleteUser(where: FilterId!): User
+        addProjectLeaded(where: FilterId!, projectId: String!): User
+        changeUserDepartment(where: FilterId!, changeToDepartmentId: String!): User
     }
 `;
 

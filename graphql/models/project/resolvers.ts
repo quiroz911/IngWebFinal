@@ -28,7 +28,7 @@ const ProjectResolvers = {
         employees: async (parent, args) => {
             return await prisma.user.findMany({
                 where: {
-                    ProjectMember:{
+                    projectMember:{
                         some: {
                             id: parent.id,
                         }
@@ -73,6 +73,16 @@ const ProjectResolvers = {
                         }
                     }),
                 },
+            })
+        },
+        setProjectLeader: async (parent, args) => {
+            return await prisma.project.update({
+                where: {
+                    ...args.where
+                },
+                data: {
+                    id_leader: args.user
+                }
             })
         },
         addProjectEmployee: async(parent, args) => {

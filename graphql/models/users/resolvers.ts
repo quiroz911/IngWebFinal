@@ -5,8 +5,12 @@ const UserResolvers = {
     projectLeader: async (parent, args) => {
       return await prisma.project.findMany({
           where: {
-            id_leader: parent.id
-          },
+            leader: {
+              id: {
+                equals: parent.id
+              }
+            }
+          }
       });
     },
     projectMember: async (parent, args) => {
@@ -21,9 +25,12 @@ const UserResolvers = {
       });
     },
     department: async (parent, args) => {
+      if(!parent.departmentId){
+        return null;
+      }
       return await prisma.department.findUnique({
           where: {
-            id: parent.departmentId
+            id: parent.departmentId,
           },
       });
     },
@@ -48,9 +55,7 @@ const UserResolvers = {
     },
     getUser: async (parent, args) => {
       return await prisma.user.findUnique({
-        where: {
-          email: args.email,
-        },
+          where: { ...args.where },
       });
     },
   },
@@ -65,11 +70,32 @@ const UserResolvers = {
     updateUser: async(parent, args) => {
         return await prisma.user.update({
             where: { ...args.where },
-            data: {
-                ...args.data,
-            },
-            // usar connect
+            data: { ...args.data }
         })
+    },
+    changeUserDepartment: async(parent, args) => {
+      return await prisma.user.update({
+          where: { ...args.where },
+          data: {
+              department: {
+                connect: {
+                  id: args.changeToDepartmentId
+                }
+              }
+          }
+      })
+  },
+    addProjectLeaded: async(parent, args) => {
+      return await prisma.user.update({
+          where: { ...args.where },
+          data: {
+              projectLeader: {
+                connect: {
+                  id: args.projectId
+                }
+              }
+          },
+      })
     },
     deleteUser: async (parent,args) => {
         return await prisma.user.delete({

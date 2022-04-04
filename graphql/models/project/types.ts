@@ -44,6 +44,7 @@ const ProjectTypes = gql`
         addProjectEmployee(where:FilterId!, data: FilterId!): Project
         removeProjectEmployee(where:FilterId!, data: FilterId!): Project
         deleteProject(where:FilterId!): Project
+        setProjectLeader(where:FilterId!, user: String): Project
     }
 `;
 
