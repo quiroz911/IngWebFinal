@@ -13,7 +13,12 @@ const ProjectTypes = gql`
         #Department: Department
         departmentId: String
         #files: [File]
+        createdAt: Date
+        updatedAt: Date
     }
+
+    # cada que se vaya a agregar un empleado a un proyecto se debe añadir 
+    # editando el array employees de proyecto
 
     input ProjectUpdateInput{
         name: StringEditField
@@ -26,7 +31,6 @@ const ProjectTypes = gql`
         name: String!
         start_date: Date!
         end_date: Date!
-        id_leader: String!
     }
 
     type Query{
@@ -40,6 +44,7 @@ const ProjectTypes = gql`
         addProjectEmployee(where:FilterId!, data: FilterId!): Project
         removeProjectEmployee(where:FilterId!, data: FilterId!): Project
         deleteProject(where:FilterId!): Project
+        setProjectLeader(where:FilterId!, user: String): Project
     }
 `;
 
