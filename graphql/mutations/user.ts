@@ -8,4 +8,20 @@ const CREATE_USER_ACCOUNT = gql`
   }
 `;
 
-export { CREATE_USER_ACCOUNT };
+const EDIT_USER = gql`
+  mutation CreateUser($data: UserCreateInput!) {
+    createUser(data: $data) {
+      id
+    }
+  }
+`;
+
+const DELETE_USER = gql`
+  mutation DeleteUser($where: FilterId!) {
+    deleteUser(where: $where) {
+      id
+    }
+  }
+`;
+
+export { CREATE_USER_ACCOUNT, DELETE_USER, EDIT_USER };
