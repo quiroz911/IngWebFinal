@@ -6,12 +6,12 @@ const UserTypes = gql`
     name: String
     email: String
     emailVerified: Date
-    image: String
     projectLeader: [Project]
     projectMember: [Project]
     department: Department
     departmentId: String
     departmentLeader: [Department]
+    image: String
     role: Role
     roleId: String
     #accounts: [Account]
@@ -23,15 +23,15 @@ const UserTypes = gql`
   input CreateUserAccountInput {
     email: String!
     name: String!
-    image: String!
+    image: Strng!
     auth0Id: String!
     role: String!
   }
 
   input UserUpdateInput {
     name: String
+    image:  String
     email: String
-    image: String
     roleId: String
   }
 
@@ -42,7 +42,7 @@ const UserTypes = gql`
   }
 
   type Query {
-    getUsers(email: String): [User]
+    getUsers: [User]
     getUser(where: FilterId!): User
   }
 
