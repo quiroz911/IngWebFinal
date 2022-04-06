@@ -55,7 +55,7 @@ model Page {
 model Role {
   id        String        @id @default(cuid())
   name      Enum_RoleName @unique
-  users     User[]
+  users     User[]        @relation(name: "roles")
   pages     Page[]
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -72,7 +72,7 @@ model User {
   department       Department?  @relation(fields: [departmentId], references: [id], name: "employees")
   departmentId     String?
   departmentLeader Department[] @relation(name: "deparLeader")
-  role             Role?        @relation(fields: [roleId], references: [id])
+  role             Role?        @relation(fields: [roleId], references: [id], name: "roles")
   roleId           String?
   accounts         Account[]
   sessions         Session[]
