@@ -20,31 +20,43 @@ const UserTypes = gql`
     updatedAt: Date
   }
 
-    input UserUpdateInput{
-        name: String
-        email: String
-        image: String
-        roleId: String
-    }
+  input CreateUserAccountInput {
+    email: String!
+    name: String!
+    image: String!
+    auth0Id: String!
+    role: String!
+  }
 
-    input UserCreateInput{
-        name: String!
-        email: String!
-        roleId: String!
-    }
+  input UserUpdateInput {
+    name: String
+    email: String
+    image: String
+    roleId: String
+  }
 
-    type Query{
-        getUsers(email: String): [User]
-        getUser(where: FilterId!): User
-    }
+  input UserCreateInput {
+    name: String!
+    email: String!
+    roleId: String!
+  }
 
-    type Mutation{
-        createUser(data: UserCreateInput!): User
-        updateUser(where: FilterId!, data: UserUpdateInput!): User
-        deleteUser(where: FilterId!): User
-        addProjectLeaded(where: FilterId!, projectId: String!): User
-        changeUserDepartment(where: FilterId!, changeToDepartmentId: String!): User
-    }
+  type Query {
+    getUsers(email: String): [User]
+    getUser(where: FilterId!): User
+  }
+
+  type Mutation {
+    createUser(data: UserCreateInput!): User
+    updateUser(where: FilterId!, data: UserUpdateInput!): User
+    deleteUser(where: FilterId!): User
+    addProjectLeaded(where: FilterId!, projectId: String!): User
+    changeUserDepartment(where: FilterId!, changeToDepartmentId: String!): User
+  }
+
+  type Mutation {
+    createUserAccount(data: CreateUserAccountInput!): User
+  }
 `;
 
 export { UserTypes };

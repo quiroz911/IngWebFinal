@@ -2,8 +2,9 @@ import "reflect-metadata";
 import "ts-tiny-invariant";
 import { ApolloServer } from "apollo-server-micro";
 import Cors from "micro-cors";
-import { types } from 'graphql/types';
-import { resolvers } from 'graphql/resolvers';
+import { types } from "graphql/types";
+import { resolvers } from "graphql/resolvers";
+import { getSession } from "next-auth/react";
 
 const cors = Cors({
   allowMethods: ["POST", "OPTIONS", "GET", "HEAD"],
@@ -33,5 +34,9 @@ export default cors(async (req, res) => {
     res.end();
     return false;
   }
+  const data: any = await getSession({ req });
+  // if (!data && process.env.NODE_ENV === "production") {
+  //   res.status(401).send({ error: "no autorizado" });
+  // }
   return functionHandler(req, res);
 });
