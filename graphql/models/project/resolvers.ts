@@ -5,6 +5,9 @@ import { argsToArgsConfig } from "graphql/type/definition";
 const ProjectResolvers = {
     Project: {
         leader: async (parent, args) => {
+            if(!parent.id_leader){
+                return null;
+              }
             return await prisma.user.findUnique({
                 where: {
                     id: parent.id_leader,
