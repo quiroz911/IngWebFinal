@@ -1,13 +1,11 @@
 import prisma from "config/prisma";
-import { argsToArgsConfig } from "graphql/type/definition";
-
 
 const ProjectResolvers = {
     Project: {
         leader: async (parent, args) => {
             if(!parent.id_leader){
                 return null;
-              }
+            }
             return await prisma.user.findUnique({
                 where: {
                     id: parent.id_leader,
@@ -21,13 +19,16 @@ const ProjectResolvers = {
                 },
             });
         },*/
-        /*Department: async (parent, args) => {
-            return await prisma.user.findUnique({
+        department: async (parent, args) => {
+            if(!parent.departmentId){
+                return null;
+            }
+            return await prisma.department.findUnique({
                 where: {
-                    id: parent.departmentId,
+                  id: parent.departmentId,
                 },
             });
-        },*/
+        },
         employees: async (parent, args) => {
             return await prisma.user.findMany({
                 where: {
@@ -80,23 +81,23 @@ const ProjectResolvers = {
         },
         setProjectLeader: async (parent, args) => {
             return await prisma.project.update({
-                where: {
-                    ...args.where
-                },
+                where: { ...args.where },
                 data: {
-                    id_leader: args.user
+                    leader: {
+                        connect: {
+                          id: args.user
+                        }
+                      }
                 }
             })
         },
         addProjectEmployee: async(parent, args) => {
             return await prisma.project.update({
-                where: {
-                    ...args.where
-                  },
+                where: { ...args.where },
                   data: {
                     employees: {
-                      connect: {
-                        ...args.data
+                        connect: {
+                            id: args.employee
                       },
                     }
                   }
@@ -104,16 +105,26 @@ const ProjectResolvers = {
         },
         removeProjectEmployee: async(parent, args) => {
             return await prisma.project.update({
-                where: {
-                    ...args.where
-                  },
+                where: { ...args.where },
                   data: {
                     employees: {
                         disconnect: {
-                        ...args.data
+                            id: args.employee
                       },
                     }
                   }
+            })
+        },
+        changeProjectDepartment: async(parent, args) => {
+            return await prisma.project.update({
+                where: { ...args.where },
+                data: {
+                    department: {
+                        connect: {
+                            id: args.changeToDepartmentId
+                      }
+                    }
+                }
             })
         },
         deleteProject: async (parent,args) => {

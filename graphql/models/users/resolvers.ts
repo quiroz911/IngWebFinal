@@ -100,7 +100,7 @@ const UserResolvers = {
     deleteUser: async (parent,args) => {
         return await prisma.user.delete({
             where: { ...args.where },
-        });
+      });
     }
   }
 };
