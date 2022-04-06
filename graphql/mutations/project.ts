@@ -8,4 +8,12 @@ const CREATE_PROJECT = gql`
   }
 `;
 
-export { CREATE_PROJECT };
+const EDIT_PROJECT = gql`
+mutation Mutation($data: ProjectCreateInput!) {
+  createProject(data: $data) {
+    id
+  }
+}
+`;
+
+export { CREATE_PROJECT, EDIT_PROJECT };
