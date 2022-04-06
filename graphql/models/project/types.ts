@@ -10,15 +10,12 @@ const ProjectTypes = gql`
         leader: User
         id_leader: String
         employees: [User]
-        #Department: Department
+        department: Department
         departmentId: String
         #files: [File]
         createdAt: Date
         updatedAt: Date
     }
-
-    # cada que se vaya a agregar un empleado a un proyecto se debe añadir 
-    # editando el array employees de proyecto
 
     input ProjectUpdateInput{
         name: StringEditField
@@ -41,10 +38,11 @@ const ProjectTypes = gql`
     type Mutation{
         createProject(data: ProjectCreateInput!): Project
         updateProject(where: FilterId!, data: ProjectUpdateInput!): Project
-        addProjectEmployee(where:FilterId!, data: FilterId!): Project
-        removeProjectEmployee(where:FilterId!, data: FilterId!): Project
+        addProjectEmployee(where:FilterId!, employeeEmail: String!): Project
+        removeProjectEmployee(where:FilterId!, employeeEmail: String!): Project
         deleteProject(where:FilterId!): Project
-        setProjectLeader(where:FilterId!, user: String): Project
+        setProjectLeader(where:FilterId!, userEmail: String!): Project
+        changeProjectDepartment(where:FilterId!, changeToDepartmentId: String!): Project
     }
 `;
 

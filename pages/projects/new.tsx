@@ -32,7 +32,6 @@ const newProject = () => {
           name: formData.name,
           start_date: formData.start_date,
           end_date: formData.end_date,
-          id_leader: formData.id_leader,
         },
       },
     });
@@ -42,14 +41,12 @@ const newProject = () => {
   };
   return (
     <div className="flex flex-col items-center p-10">
-      <PrivateComponent roleList={["administrator"]}>
-        <div className="w-20 h-10 bg-slate-500">xd</div>
-      </PrivateComponent>
+      
       {data && <div>data loaded</div>}
       <Link href="/projects" passHref>
         <i className="fas fa-arrow-left self-start" />
       </Link>
-      <h2>Nuevo Proyecto</h2>
+      <h2 className="text-bold text-3xl">Nuevo Proyecto</h2>
       <form
         ref={form}
         onChange={updateFormData}
@@ -73,12 +70,6 @@ const newProject = () => {
           <input
             name="end_date"
             type="date"
-            className="rounded-xl my-3 text-center border-2 border-slate-700"
-          />
-          <span>Líder</span>
-          <input
-            name="id_leader"
-            type="text"
             className="rounded-xl my-3 text-center border-2 border-slate-700"
           />
         </label>

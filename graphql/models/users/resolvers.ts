@@ -124,6 +124,7 @@ const UserResolvers = {
       });
     },
   },
+
 };
 
 export { UserResolvers };

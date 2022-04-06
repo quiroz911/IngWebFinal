@@ -45,6 +45,7 @@ export async function getServerSideProps(context) {
   };
 }
 
+
 const index = ({ token }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [openDialog, setOpenDialog] = useState(false);
