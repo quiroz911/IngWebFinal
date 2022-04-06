@@ -38,10 +38,10 @@ const ProjectTypes = gql`
     type Mutation{
         createProject(data: ProjectCreateInput!): Project
         updateProject(where: FilterId!, data: ProjectUpdateInput!): Project
-        addProjectEmployee(where:FilterId!, employee: String!): Project
-        removeProjectEmployee(where:FilterId!, employee: String!): Project
+        addProjectEmployee(where:FilterId!, employeeEmail: String!): Project
+        removeProjectEmployee(where:FilterId!, employeeEmail: String!): Project
         deleteProject(where:FilterId!): Project
-        setProjectLeader(where:FilterId!, user: String!): Project
+        setProjectLeader(where:FilterId!, userEmail: String!): Project
         changeProjectDepartment(where:FilterId!, changeToDepartmentId: String!): Project
     }
 `;

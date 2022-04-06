@@ -85,7 +85,7 @@ const ProjectResolvers = {
                 data: {
                     leader: {
                         connect: {
-                          id: args.user
+                          email: args.userEmail
                         }
                       }
                 }
@@ -97,7 +97,7 @@ const ProjectResolvers = {
                   data: {
                     employees: {
                         connect: {
-                            id: args.employee
+                            email: args.employeeEmail
                       },
                     }
                   }
@@ -109,7 +109,7 @@ const ProjectResolvers = {
                   data: {
                     employees: {
                         disconnect: {
-                            id: args.employee
+                            email: args.employeeEmail
                       },
                     }
                   }
