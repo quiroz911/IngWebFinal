@@ -1,48 +1,141 @@
-import { useQuery } from "@apollo/client";
-import { GET_PROJECTS } from "graphql/queries/projects";
-import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import axios, { AxiosRequestConfig } from "axios";
 import { matchRoles } from "utils/matchRoles";
+import { Dialog } from "@mui/material";
+import useFormData from "hooks/useFormData";
+import { ButtonLoading } from "@components/ButtonLoading";
+import { nanoid } from "nanoid";
+import { CREATE_USER_ACCOUNT } from "graphql/mutations/user";
+import { useMutation } from "@apollo/client";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export async function getServerSideProps(context) {
+  // const options: AxiosRequestConfig = {
+  //   method: "POST",
+  //   url: `https://${process.env.AUTH0_ISSUER}/oauth/token`,
+  //   data: {
+  //     grant_type: "client_credentials",
+  //     client_id: process.env.AUTH0_API_ID,
+  //     client_secret: process.env.AUTH0_API_SECRET,
+  //     audience: `https://${process.env.AUTH0_ISSUER}/api/v2/`,
+  //   },
+  // };
+
+  const options: AxiosRequestConfig = {
+    method: "POST",
+    url: `https://${process.env.AUTH0_ISSUER}/oauth/token`,
+
+    data: {
+      grant_type: "client_credentials",
+      client_id: process.env.AUTH0_API_ID,
+      client_secret: process.env.AUTH0_API_SECRET,
+      audience: `https://${process.env.AUTH0_ISSUER}/api/v2/`,
+    },
+  };
+
+  const TokenResponse = await axios.request(options);
+  const token = TokenResponse.data.access_token;
+
+  // console.log(TokenResponse);
+
   return {
-    props: { ...(await matchRoles(context)) },
+    props: { token, ...(await matchRoles(context)) },
   };
 }
 
-const index = () => {
-  const { data, loading } = useQuery(GET_PROJECTS, {
-    fetchPolicy: "cache-and-network",
-  });
+const index = ({ token }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [openDialog, setOpenDialog] = useState(false);
+  const closeDialog = () => {
+    setOpenDialog(false);
+  };
+  return (
+    <div>
+      <h1 className="bg-yellow-400">Gestion de usuarios</h1>
+      <button
+        onClick={() => setOpenDialog(true)}
+        type="button"
+        className=" bg-slate-500"
+      >
+        Crear nuevo usuario
+      </button>
+      <Dialog open={openDialog} onClose={closeDialog}>
+        <CreateUserDialog closeDialog={closeDialog} token={token} />
+      </Dialog>
+    </div>
+  );
+};
 
-  if (loading) return <div>loading...</div>;
+const CreateUserDialog = ({ closeDialog, token }) => {
+  const { form, formData, updateFormData } = useFormData(null);
+  const [createUser, { loading }] = useMutation(CREATE_USER_ACCOUNT);
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const password = nanoid();
+    const options: AxiosRequestConfig = {
+      method: "POST",
+      url: "https://proyecto-final-ing-web.us.auth0.com/api/v2/users",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: {
+        email: formData.email,
+        password: `${password}*`,
+        connection: "Username-Password-Authentication",
+        name: formData.name,
+      },
+    };
+    try {
+      const userCreateResponse = await axios.request(options);
+      await createUser({
+        variables: {
+          data: {
+            email: userCreateResponse.data.email,
+            name: userCreateResponse.data.name,
+            image: userCreateResponse.data.picture,
+            auth0Id: userCreateResponse.data.user_id,
+            role: formData.role,
+          },
+        },
+      });
+      toast.success(`Usuario creado correctamente con la clave ${password}`, {
+        autoClose: false,
+      });
+      closeDialog();
+    } catch (error) {
+      toast.error("Error creando el usuario");
+      closeDialog();
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center p-10">
-      <Link href="/clients/new" passHref>
-        <div className="self-end button-primary">Nuevo Cliente</div>
-      </Link>
-
-      <h2 className="my-4 text-3xl font-bold text-gray-800">Clientes</h2>
-      <div className="hidden lg:block">
-        <table>
-          <thead>
-            <th>ID Cliente</th>
-
-            <th>Nombre</th>
-            <th>Fecha de Actualización</th>
-            <th>Fecha de Creación</th>
-
-            <th>Acciones</th>
-          </thead>
-          <tbody>
-            {/* {data.getProjects.map((c) => (
-              <div key={c.id}>{c.id} = {c.name}</div>
-            ))} */}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+      <label htmlFor="email">
+        <span> Email</span>
+        <input name="email" placeholder="correo" required type={"email"} />
+      </label>
+      <label htmlFor="name">
+        <span> Nombre</span>
+        <input name="name" placeholder="Nombre" required type={"text"} />
+      </label>
+      <label htmlFor="role" className="my-2">
+        <span className="font-bold mx-2">Rol:</span>
+        <select name="role" required>
+          <option disabled selected>
+            Seleccione un rol
+          </option>
+          <option>employee</option>
+          <option>leader</option>
+          <option>administrator</option>
+          <option>superuser</option>
+        </select>
+      </label>
+      <ButtonLoading isSubmit text="Crear Usuario" loading={loading} />
+    </form>
   );
 };
 
