@@ -48,23 +48,29 @@ const index = () => {
             <th>Fecha de inicio</th>
             <th>Fecha de finalización</th>
             <th>Empleados</th>
-            <th>Líder proyecto</th>
+            <PrivateComponent roleList={["administrator", "leader"]}>
+              <th>Líder proyecto</th>
+            </PrivateComponent>
             <th>Acciones</th>
           </thead>
           <tbody>
             {data.getProjects.map((c) => {
               return (
                 <tr key={c.id}>
-                  <td>{c.id}</td>
+                  <PrivateComponent roleList={["administrator"]}>
+                    <td>{c.id}</td>
+                  </PrivateComponent>
                   <td>{c.name}</td>
                   <td>{c.start_date.split("T").shift()}</td>
                   <td>{c.end_date.split("T").shift()}</td>
                   <td className="flex flex-col">
                     {c.employees.map((e) => {
-                      return <span>•{e.name}</span>;
+                      return <p>•{e.name}</p>;
                     })}
                   </td>
-                  {existeLeader(c.leader)}
+                  <PrivateComponent roleList={["administrator", "leader"]}>
+                    {existeLeader(c.leader)}
+                  </PrivateComponent>
                   <EditDeleteButtons project={c} />
                 </tr>
               );
@@ -96,7 +102,7 @@ const EditDeleteButtons = ({ project }) => {
     setOpenAddLeaderDialog(false);
   };
   return (
-    <div>
+    <td>
       <div className="flex w-full justify-center">
         <button
           type="button"
@@ -106,17 +112,21 @@ const EditDeleteButtons = ({ project }) => {
         >
           <i className="mx-4 fas fa-pen text-yellow-500 hover:text-yellow-700 cursor-pointer" />
         </button>
-        <button type="button" onClick={() => setOpenDeleteDialog(true)}>
-          <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
-        </button>
-        <button
-          type="button"
-          className="flex flex-col mx-1"
-          onClick={() => setOpenAddMemberDialog(true)}
-        >
-          <i className="mx-4 fa fa-users text-green-500 hover:text-green-700 cursor-pointer" />
-          <span>Member</span>
-        </button>
+        <PrivateComponent roleList={["administrator"]}>
+          <button type="button" onClick={() => setOpenDeleteDialog(true)}>
+            <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
+          </button>
+        </PrivateComponent>
+        <PrivateComponent roleList={["administrator", "leader"]}>
+          <button
+            type="button"
+            className="flex flex-col mx-1"
+            onClick={() => setOpenAddMemberDialog(true)}
+          >
+            <i className="mx-4 fa fa-users text-green-500 hover:text-green-700 cursor-pointer" />
+            <span>Member</span>
+          </button>
+        </PrivateComponent>
         <button
           type="button"
           className="flex flex-col mx-1"
@@ -129,16 +139,23 @@ const EditDeleteButtons = ({ project }) => {
       <Dialog open={openEditDialog} onClose={closeDialog}>
         <EditProyecto project={project} closeDialog={closeDialog} />
       </Dialog>
-      <Dialog open={openDeleteDialog} onClose={closeDialog}>
-        <DeleteProyecto project={project} closeDialog={closeDialog} />
-      </Dialog>
-      <Dialog open={openAddMemberDialog} onClose={closeDialog}>
-        <EditProjectMember project={project} closeDialog={closeDialog} />
-      </Dialog>
+
+      <PrivateComponent roleList={["administrator"]}>
+        <Dialog open={openDeleteDialog} onClose={closeDialog}>
+          <DeleteProyecto project={project} closeDialog={closeDialog} />
+        </Dialog>
+      </PrivateComponent>
+
+      <PrivateComponent roleList={["administrator", "leader"]}>
+        <Dialog open={openAddMemberDialog} onClose={closeDialog}>
+          <EditProjectMember project={project} closeDialog={closeDialog} />
+        </Dialog>
+      </PrivateComponent>
+
       <Dialog open={openAddLeaderDialog} onClose={closeDialog}>
         <EditProjectLeader project={project} closeDialog={closeDialog} />
       </Dialog>
-    </div>
+    </td>
   );
 };
 
@@ -356,7 +373,11 @@ const EditProjectLeader = ({ project, closeDialog }) => {
           <input name="email" className="m-3 border-2" />
         </label>
         <div className="flex ">
-          <ButtonLoading isSubmit loading={loading} text="Asignar líder de proyecto" />
+          <ButtonLoading
+            isSubmit
+            loading={loading}
+            text="Asignar líder de proyecto"
+          />
         </div>
       </form>
     </div>
