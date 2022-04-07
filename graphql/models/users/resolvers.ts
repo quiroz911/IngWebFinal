@@ -48,6 +48,13 @@ const UserResolvers = {
         },
       });
     },
+    profile: async (parent, args) => {
+      return await prisma.profile.findUnique({
+        where: {
+          userId: parent.id,
+        },
+      });
+    },
   },
   Query: {
     getUsers: async (parent, args) => {
@@ -55,7 +62,9 @@ const UserResolvers = {
     },
     getUser: async (parent, args) => {
       return await prisma.user.findUnique({
-        where: { ...args.where },
+        where: {
+          email: args.email,
+        },
       });
     },
   },

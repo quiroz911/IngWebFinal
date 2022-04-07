@@ -14,6 +14,7 @@ const UserTypes = gql`
     image: String
     role: Role
     roleId: String
+    profile: Profile
     #accounts: [Account]
     #sessions: [Session]
     createdAt: Date
@@ -23,7 +24,7 @@ const UserTypes = gql`
   input CreateUserAccountInput {
     email: String!
     name: String!
-    image: Strng!
+    image: String!
     auth0Id: String!
     role: String!
   }
@@ -43,7 +44,7 @@ const UserTypes = gql`
 
   type Query {
     getUsers: [User]
-    getUser(where: FilterId!): User
+    getUser(email: String!): User
   }
 
   type Mutation {
