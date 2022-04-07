@@ -7,9 +7,28 @@ const ProfileTypes = gql`
     address: String
     customImage: String
   }
+
+  input ProfileWhereUniqueInput {
+    id: String!
+  }
+
+  input ProfileUpdateInput {
+    phone: String
+    address: String
+    customImage: String
+  }
+
+  type Query {
+    getProfile(where: FilterId!): Profile
+  }
+
   type Mutation {
-    updateProfileImage(user: String, image: String): User
+    updateProfile(
+      where: ProfileWhereUniqueInput!
+      data: ProfileUpdateInput!
+    ): User
+
+    updateProfileImage(where: ProfileWhereUniqueInput!, image: String!): User
   }
 `;
-
 export { ProfileTypes };
