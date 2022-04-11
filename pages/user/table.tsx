@@ -68,7 +68,6 @@ const Indexusers = () => {
   );
 };
 
-
 const EditDeleteButtons = ({ user }) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -77,28 +76,29 @@ const EditDeleteButtons = ({ user }) => {
     setOpenDeleteDialog(false);
   };
   return (
-    <td>
-      <div className="flex w-full justify-center">
-        <button
-          type="button"
-          onClick={() => {
-            setOpenEditDialog(true);
-          }}
-        >
-          <i className="mx-4 fas fa-pen text-yellow-500 hover:text-yellow-700 cursor-pointer" />
-        </button>
-        <button type="button" onClick={() => setOpenDeleteDialog(true)}>
-          <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
-        </button>
-        
-      </div>
-      <Dialog open={openEditDialog} onClose={closeDialog}>
-        <Editusers user={user} closeDialog={closeDialog} />
-      </Dialog>
-      <Dialog open={openDeleteDialog} onClose={closeDialog}>
-        <Deleteusers user={user} closeDialog={closeDialog} />
-      </Dialog>
-    </td>
+    <PrivateComponent roleList={["administrator"]}>
+      <td>
+        <div className="flex w-full justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              setOpenEditDialog(true);
+            }}
+          >
+            <i className="mx-4 fas fa-pen text-yellow-500 hover:text-yellow-700 cursor-pointer" />
+          </button>
+          <button type="button" onClick={() => setOpenDeleteDialog(true)}>
+            <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
+          </button>
+        </div>
+        <Dialog open={openEditDialog} onClose={closeDialog}>
+          <Editusers user={user} closeDialog={closeDialog} />
+        </Dialog>
+        <Dialog open={openDeleteDialog} onClose={closeDialog}>
+          <Deleteusers user={user} closeDialog={closeDialog} />
+        </Dialog>
+      </td>
+    </PrivateComponent>
   );
 };
 
@@ -111,13 +111,13 @@ const Editusers = ({ user, closeDialog }) => {
     e.preventDefault();
     await updateuser({
       variables: {
-        where:{
+        where: {
           id: user.id,
         },
-        data:{
+        data: {
           name: formData.name,
-          roleId: formData.role
-        }
+          roleId: formData.role,
+        },
       },
     });
     toast.success(`users ${user.id} modificado exitosamente`);
@@ -136,7 +136,11 @@ const Editusers = ({ user, closeDialog }) => {
       >
         <label htmlFor="name" className="flex flex-col">
           <span>Nombre del users:</span>
-          <input className="my-3 border-2" name="name" defaultValue={user.name} />
+          <input
+            className="my-3 border-2"
+            name="name"
+            defaultValue={user.name}
+          />
         </label>
         <label htmlFor="role" className="my-2">
           <span className="font-bold mx-2">Rol:</span>
@@ -144,9 +148,10 @@ const Editusers = ({ user, closeDialog }) => {
             <option disabled selected>
               Seleccione un rol
             </option>
-            <option value='cl1aaxh7t00887wvh4z4r4bxh'>employee</option>
-            <option value='cl1aawxhf00677wvhsbvqv4g8'>leader</option>
-            <option value='cl1aaxqc901097wvh1evut5np'>administrator</option>
+            <option value="cl1aaxh7t00887wvh4z4r4bxh">employee</option>
+            <option value="cl1aawxhf00677wvhsbvqv4g8">leader</option>
+            <option value="cl1aaxqc901097wvh1evut5np">administrator</option>
+            {/* TODO: consumir dinámicamente los roles */}
           </select>
         </label>
         <ButtonLoading isSubmit loading={loading} text="Editar users" />
@@ -198,6 +203,5 @@ const Deleteusers = ({ user, closeDialog }) => {
     </div>
   );
 };
-
 
 export default Indexusers;
