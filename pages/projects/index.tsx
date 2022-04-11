@@ -69,7 +69,7 @@ const index = () => {
                     })}
                   </td>
                   <PrivateComponent roleList={["administrator", "leader"]}>
-                    {existeLeader(c.leader)}
+                  <ExisteLeader leader={c.leader}/>
                   </PrivateComponent>
                   <EditDeleteButtons project={c} />
                 </tr>
@@ -82,7 +82,7 @@ const index = () => {
   );
 };
 
-function existeLeader(leader) {
+const ExisteLeader = ({leader}) =>{
   if (leader) {
     return <td>{leader.name}</td>;
   } else {
@@ -385,3 +385,4 @@ const EditProjectLeader = ({ project, closeDialog }) => {
 };
 
 export default index;
+export {ExisteLeader};
