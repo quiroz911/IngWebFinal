@@ -9,11 +9,11 @@ const CREATE_USER_ACCOUNT = gql`
 `;
 
 const EDIT_USER = gql`
-  mutation CreateUser($data: UserCreateInput!) {
-    createUser(data: $data) {
-      id
-    }
+  mutation Mutation($where: FilterId!, $data: UserUpdateInput!) {
+  updateUser(where: $where, data: $data) {
+    id
   }
+}
 `;
 
 const DELETE_USER = gql`

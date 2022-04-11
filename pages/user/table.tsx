@@ -44,9 +44,20 @@ const Indexusers = () => {
             </PrivateComponent>
           </thead>
           <tbody>
-            {data.getUsers.map((c) => (
-              <Users key={c.id} user={c} />
-            ))}
+            {data.getUsers.map((c) => {
+              return (
+                <tr key={c.id}>
+                  <PrivateComponent roleList={["administrator"]}>
+                    <td>{c.id}</td>
+                  </PrivateComponent>
+                  <td>{c.name}</td>
+                  <td>{c.role.name}</td>
+                  <td>{c.updatedAt}</td>
+                  <td>{c.createdAt}</td>
+                  <EditDeleteButtons user={c} />
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -57,41 +68,6 @@ const Indexusers = () => {
   );
 };
 
-// const userssResponsive = ({ users }) => (
-//   <div>
-//     {users.map((user) => (
-//       <usersResponisve key={user.id} user={user} />
-//     ))}
-//   </div>
-// );
-
-const UsersResponisve = ({ user }) => (
-  <div className="bg-gray-200 flex flex-col my-4 p-4 rounded-lg shadow-lg">
-    <div className="flex flex-col">
-      <span>Nombre:</span>
-      <span>{user.name}</span>
-    </div>
-    <div>
-      <EditDeleteButtons user={user} />
-    </div>
-  </div>
-);
-
-const Users = ({ user }) => (
-  <tr>
-    <PrivateComponent roleList={["administrator"]}>
-      <td>{user.id}</td>
-
-      <td>{user.name}</td>
-      <td>{user.role.name}</td>
-      <td>{user.updatedAt}</td>
-      <td>{user.createdAt}</td>
-      <td>
-        <EditDeleteButtons user={user} />
-      </td>
-    </PrivateComponent>
-  </tr>
-);
 
 const EditDeleteButtons = ({ user }) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -101,7 +77,7 @@ const EditDeleteButtons = ({ user }) => {
     setOpenDeleteDialog(false);
   };
   return (
-    <div>
+    <td>
       <div className="flex w-full justify-center">
         <button
           type="button"
@@ -114,6 +90,7 @@ const EditDeleteButtons = ({ user }) => {
         <button type="button" onClick={() => setOpenDeleteDialog(true)}>
           <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
         </button>
+        
       </div>
       <Dialog open={openEditDialog} onClose={closeDialog}>
         <Editusers user={user} closeDialog={closeDialog} />
@@ -121,7 +98,7 @@ const EditDeleteButtons = ({ user }) => {
       <Dialog open={openDeleteDialog} onClose={closeDialog}>
         <Deleteusers user={user} closeDialog={closeDialog} />
       </Dialog>
-    </div>
+    </td>
   );
 };
 
@@ -134,8 +111,13 @@ const Editusers = ({ user, closeDialog }) => {
     e.preventDefault();
     await updateuser({
       variables: {
-        updateuserId: user.id,
-        name: formData.name,
+        where:{
+          id: user.id,
+        },
+        data:{
+          name: formData.name,
+          roleId: formData.role
+        }
       },
     });
     toast.success(`users ${user.id} modificado exitosamente`);
@@ -154,7 +136,18 @@ const Editusers = ({ user, closeDialog }) => {
       >
         <label htmlFor="name" className="flex flex-col">
           <span>Nombre del users:</span>
-          <input name="name" defaultValue={user.name} />
+          <input className="my-3 border-2" name="name" defaultValue={user.name} />
+        </label>
+        <label htmlFor="role" className="my-2">
+          <span className="font-bold mx-2">Rol:</span>
+          <select name="role" required>
+            <option disabled selected>
+              Seleccione un rol
+            </option>
+            <option value='cl1aaxh7t00887wvh4z4r4bxh'>employee</option>
+            <option value='cl1aawxhf00677wvhsbvqv4g8'>leader</option>
+            <option value='cl1aaxqc901097wvh1evut5np'>administrator</option>
+          </select>
         </label>
         <ButtonLoading isSubmit loading={loading} text="Editar users" />
       </form>
@@ -205,5 +198,6 @@ const Deleteusers = ({ user, closeDialog }) => {
     </div>
   );
 };
+
 
 export default Indexusers;

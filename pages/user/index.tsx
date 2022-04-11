@@ -45,7 +45,6 @@ export async function getServerSideProps(context) {
   };
 }
 
-
 const index = ({ token }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [openDialog, setOpenDialog] = useState(false);
@@ -53,12 +52,15 @@ const index = ({ token }) => {
     setOpenDialog(false);
   };
   return (
-    <div>
-      <h1 className="bg-yellow-400">Gestion de usuarios</h1>
+    <div className="flex flex-col">
+      <h1 className="bg-yellow-400 p-5 text-2xl text-center">Gestion de usuarios</h1>
+      <div>
+
+      </div>
       <button
         onClick={() => setOpenDialog(true)}
         type="button"
-        className=" bg-slate-500"
+        className=" bg-green-500 hover:bg-green-300 rounded-xl p-3 mx-28 my-10 text-white"
       >
         Crear nuevo usuario
       </button>
@@ -114,29 +116,30 @@ const CreateUserDialog = ({ closeDialog, token }) => {
   };
 
   return (
-    <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
-      <label htmlFor="email">
-        <span> Email</span>
-        <input name="email" placeholder="correo" required type={"email"} />
-      </label>
-      <label htmlFor="name">
-        <span> Nombre</span>
-        <input name="name" placeholder="Nombre" required type={"text"} />
-      </label>
-      <label htmlFor="role" className="my-2">
-        <span className="font-bold mx-2">Rol:</span>
-        <select name="role" required>
-          <option disabled selected>
-            Seleccione un rol
-          </option>
-          <option>employee</option>
-          <option>leader</option>
-          <option>administrator</option>
-          <option>superuser</option>
-        </select>
-      </label>
-      <ButtonLoading isSubmit text="Crear Usuario" loading={loading} />
-    </form>
+    <div className="p-4">
+      <form className="flex flex-col" ref={form} onChange={updateFormData} onSubmit={submitForm}>
+        <label htmlFor="email">
+          <span className="mx-5"> Email</span>
+          <input name="email" placeholder="Ingrese correo" required type={"email"} />
+        </label>
+        <label htmlFor="name">
+          <span className="mx-5"> Nombre</span>
+          <input name="name" placeholder="Ingrese nombre" required type={"text"} />
+        </label>
+        <label htmlFor="role" className="my-2">
+          <span className="font-bold mx-2">Rol:</span>
+          <select name="role" required>
+            <option disabled selected>
+              Seleccione un rol
+            </option>
+            <option>employee</option>
+            <option>leader</option>
+            <option>administrator</option>
+          </select>
+        </label>
+        <ButtonLoading isSubmit text="Crear Usuario" loading={loading} />
+      </form>
+    </div>
   );
 };
 
