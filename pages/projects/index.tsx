@@ -31,6 +31,9 @@ const index = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
+      <Link href="/" passHref>
+        <i className="fas fa-arrow-left self-start cursor-pointer" />
+      </Link>
       <PrivateComponent roleList={["administrator"]}>
         <Link href="/projects/new" passHref>
           <div className="self-end button-primary">Nuevo Proyecto</div>

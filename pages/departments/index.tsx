@@ -1,83 +1,89 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { ButtonLoading } from '@components/ButtonLoading';
-import PrivateComponent from '@components/PrivateComponent';
-import { Dialog } from '@mui/material';
-import { DELETE_DEPARTMENT, EDIT_DEPARTMENT } from 'graphql/mutations/department';
-import { GET_DEPARTMENTS } from 'graphql/queries/departments';
-import useFormData from 'hooks/useFormData';
-import Link from 'next/link';
-import { ExisteLeader } from 'pages/projects';
-import React, { useState } from 'react'
-import { toast } from 'react-toastify';
-import { matchRoles } from 'utils/matchRoles';
+import { useMutation, useQuery } from "@apollo/client";
+import { ButtonLoading } from "@components/ButtonLoading";
+import PrivateComponent from "@components/PrivateComponent";
+import { Dialog } from "@mui/material";
+import {
+  DELETE_DEPARTMENT,
+  EDIT_DEPARTMENT,
+} from "graphql/mutations/department";
+import { GET_DEPARTMENTS } from "graphql/queries/departments";
+import useFormData from "hooks/useFormData";
+import Link from "next/link";
+import { ExisteLeader } from "pages/projects";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { matchRoles } from "utils/matchRoles";
 
 export async function getServerSideProps(context) {
-    return {
-      props: { ...(await matchRoles(context)) },
-    };
+  return {
+    props: { ...(await matchRoles(context)) },
+  };
 }
 
 const index = () => {
-    const { data, loading } = useQuery(GET_DEPARTMENTS, {
-        fetchPolicy: "cache-and-network",
-      });
-    
-      if (loading) return <div>loading...</div>;
-    
-      return (
-        <div className="flex flex-col items-center p-10">
-          <PrivateComponent roleList={["administrator"]}>
-            <Link href="/departments/new" passHref>
-              <div className="self-end button-primary">Nuevo Departamento</div>
-            </Link>
-          </PrivateComponent>
-    
-          <h2 className="my-4 text-3xl font-bold text-gray-800">Departamentos</h2>
-          <div className="hidden lg:block">
-            <table>
-              <thead>
-                <PrivateComponent roleList={["administrator"]}>
-                  <th>ID Departamento</th>
-                </PrivateComponent>
-                <th>Nombre</th>
-                <th>Empleados</th>
-                <PrivateComponent roleList={["administrator", "leader"]}>
-                  <th>Líder departamento</th>
-                </PrivateComponent>
-                <th>Proyectos</th>
-                <th>Acciones</th>
-              </thead>
-              <tbody>
-                {data.getDepartments.map((c) => {
-                  return (
-                    <tr key={c.id}>
-                      <PrivateComponent roleList={["administrator"]}>
-                        <td>{c.id}</td>
-                      </PrivateComponent>
-                      <td>{c.name}</td>
-                      <td className="flex flex-col">
-                        {c.employees.map((e) => {
-                          return <p>•{e.name}</p>;
-                        })}
-                      </td>
-                      <PrivateComponent roleList={["administrator", "leader"]}>
-                        <ExisteLeader leader={c.leader}/>
-                      </PrivateComponent>
-                      <td className="flex flex-col">
-                        {c.projects.map((e) => {
-                          return <p>•{e.name}</p>;
-                        })}
-                      </td>
-                      <EditDeleteButtons department={c} />
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      );
-}
+  const { data, loading } = useQuery(GET_DEPARTMENTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading) return <div>loading...</div>;
+
+  return (
+    <div className="flex flex-col items-center p-10">
+      <Link href="/" passHref>
+        <i className="fas fa-arrow-left self-start cursor-pointer" />
+      </Link>
+      <PrivateComponent roleList={["administrator"]}>
+        <Link href="/departments/new" passHref>
+          <div className="self-end button-primary">Nuevo Departamento</div>
+        </Link>
+      </PrivateComponent>
+
+      <h2 className="my-4 text-3xl font-bold text-gray-800">Departamentos</h2>
+      <div className="hidden lg:block">
+        <table>
+          <thead>
+            <PrivateComponent roleList={["administrator"]}>
+              <th>ID Departamento</th>
+            </PrivateComponent>
+            <th>Nombre</th>
+            <th>Empleados</th>
+            <PrivateComponent roleList={["administrator", "leader"]}>
+              <th>Líder departamento</th>
+            </PrivateComponent>
+            <th>Proyectos</th>
+            <th>Acciones</th>
+          </thead>
+          <tbody>
+            {data.getDepartments.map((c) => {
+              return (
+                <tr key={c.id}>
+                  <PrivateComponent roleList={["administrator"]}>
+                    <td>{c.id}</td>
+                  </PrivateComponent>
+                  <td>{c.name}</td>
+                  <td className="flex flex-col">
+                    {c.employees.map((e) => {
+                      return <p>•{e.name}</p>;
+                    })}
+                  </td>
+                  <PrivateComponent roleList={["administrator", "leader"]}>
+                    <ExisteLeader leader={c.leader} />
+                  </PrivateComponent>
+                  <td className="flex flex-col">
+                    {c.projects.map((e) => {
+                      return <p>•{e.name}</p>;
+                    })}
+                  </td>
+                  <EditDeleteButtons department={c} />
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
 const EditDeleteButtons = ({ department }) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
@@ -106,7 +112,6 @@ const EditDeleteButtons = ({ department }) => {
             <i className="mx-4 fas fa-trash text-red-500 hover:text-red-700 cursor-pointer" />
           </button>
         </PrivateComponent>
-       
       </div>
       <Dialog open={openEditDialog} onClose={closeDialog}>
         <EditDepartamento department={department} closeDialog={closeDialog} />
@@ -114,13 +119,14 @@ const EditDeleteButtons = ({ department }) => {
 
       <PrivateComponent roleList={["administrator"]}>
         <Dialog open={openDeleteDialog} onClose={closeDialog}>
-          <DeleteDepartamento department={department} closeDialog={closeDialog} />
+          <DeleteDepartamento
+            department={department}
+            closeDialog={closeDialog}
+          />
         </Dialog>
       </PrivateComponent>
-
-      
     </td>
-  )
+  );
 };
 
 const EditDepartamento = ({ department, closeDialog }) => {
@@ -136,7 +142,7 @@ const EditDepartamento = ({ department, closeDialog }) => {
           id: department.id,
         },
         data: {
-          name: formData.name
+          name: formData.name,
         },
       },
     });
@@ -216,4 +222,4 @@ const DeleteDepartamento = ({ department, closeDialog }) => {
   );
 };
 
-export default index
+export default index;

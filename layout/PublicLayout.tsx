@@ -18,11 +18,17 @@ export const PublicLayout = ({ pageAuth, children }: any) => {
   }
   return (
     <div>
-      <button type="button" onClick={() => signOut()}>
-        Cerrar Sesion
-      </button>
+      <div className="flex flex-row items-center">
+        <button
+          className="bg-red-500 hover:bg-red-300 m-3 rounded-xl p-3 text-white"
+          type="button"
+          onClick={() => signOut()}
+        >
+          Cerrar Sesion
+        </button>
+        <h3 className="text-lg"> Bienvenido { session.user.name } !</h3>
+      </div>
       {children}
-      <div>este es el public layout</div>
     </div>
   );
 };

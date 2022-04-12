@@ -28,6 +28,9 @@ const Indexusers = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
+      <Link href="/" passHref>
+        <i className="fas fa-arrow-left self-start" />
+      </Link>
       <h2 className="my-4 text-3xl font-bold text-gray-800">USUARIOS</h2>
       <div className="hidden lg:block">
         <table>

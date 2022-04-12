@@ -10,6 +10,7 @@ import { useMutation } from "@apollo/client";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 export async function getServerSideProps(context) {
   // const options: AxiosRequestConfig = {
@@ -53,20 +54,26 @@ const index = ({ token }) => {
   };
   return (
     <div className="flex flex-col">
-      <h1 className="bg-yellow-400 p-5 text-2xl text-center">Gestion de usuarios</h1>
-      <div>
-
-      </div>
+      <Link href="/" passHref>
+        <i className="fas fa-arrow-left self-start cursor-pointer m-5" />
+      </Link>
+      <h1 className="bg-yellow-400 p-6 text-2xl text-center">Gestion de usuarios</h1>
       <button
         onClick={() => setOpenDialog(true)}
         type="button"
-        className=" bg-green-500 hover:bg-green-300 rounded-xl p-3 mx-28 my-10 text-white"
+        className=" bg-green-500 hover:bg-green-300 rounded-xl p-3 mx-28 my-10 text-white text-xl"
       >
         Crear nuevo usuario
       </button>
+      <Link href="/user/table" passHref>
+          <button className="bg-green-500 hover:bg-green-300 rounded-xl p-3 mx-28 my-8 text-white text-xl">
+            Ver usuarios
+          </button>
+        </Link>
       <Dialog open={openDialog} onClose={closeDialog}>
         <CreateUserDialog closeDialog={closeDialog} token={token} />
       </Dialog>
+      
     </div>
   );
 };
