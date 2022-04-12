@@ -20,7 +20,7 @@ export const PublicLayout = ({ pageAuth, children }: any) => {
     <div>
       <div className="flex flex-row items-center">
         <button
-          className="bg-red-500 hover:bg-red-300 m-3 rounded-xl p-3 text-white"
+          className="bg-red-500 hover:bg-gray-400 m-3 rounded-xl p-3 text-white"
           type="button"
           onClick={() => signOut()}
         >
