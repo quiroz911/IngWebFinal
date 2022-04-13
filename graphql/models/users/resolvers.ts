@@ -119,7 +119,7 @@ const UserResolvers = {
               type: "oauth",
               providerAccountId: args.data.auth0Id,
             },
-          },
+          }
         },
       });
     },

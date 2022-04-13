@@ -76,7 +76,7 @@ const EmployeesDiagram = () => {
       setSeries(data.getDiagramData.series);
       setOptions({...options, xaxis: {...options.xaxis, categories: data.getDiagramData.categories}});
     }
-  }, [data, options]);
+  }, [data]);
 
   if(loading) return <div>Loading...</div>
 
