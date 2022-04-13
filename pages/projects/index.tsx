@@ -67,7 +67,7 @@ const Index = () => {
                   <td>{c.name}</td>
                   <td>{c.start_date.split("T").shift()}</td>
                   <td>{c.end_date.split("T").shift()}</td>
-                  <td className="flex flex-col">
+                  <td key={c.id} className="flex flex-col">
                     {c.employees.map((e) => {
                       return <p>•{e.name}</p>;
                     })}

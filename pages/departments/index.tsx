@@ -61,7 +61,7 @@ const Index = () => {
                     <td>{c.id}</td>
                   </PrivateComponent>
                   <td>{c.name}</td>
-                  <td className="flex flex-col">
+                  <td key={c.id} className="flex flex-col">
                     {c.employees.map((e) => {
                       return <p>•{e.name}</p>;
                     })}
@@ -69,7 +69,7 @@ const Index = () => {
                   <PrivateComponent roleList={["administrator", "leader"]}>
                     <ExisteLeader leader={c.leader} />
                   </PrivateComponent>
-                  <td className="flex flex-col">
+                  <td key={c.id} className="flex flex-col">
                     {c.projects.map((e) => {
                       return <p>•{e.name}</p>;
                     })}
