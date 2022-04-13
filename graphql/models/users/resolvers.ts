@@ -73,6 +73,10 @@ const UserResolvers = {
       return await prisma.user.create({
         data: {
           ...args.data,
+          profile: {
+            create: {
+            }
+          }
         },
       });
     },
@@ -128,7 +132,11 @@ const UserResolvers = {
               type: "oauth",
               providerAccountId: args.data.auth0Id,
             },
-          }
+          },
+          profile: {
+            create: {
+            }
+          },
         },
       });
     },

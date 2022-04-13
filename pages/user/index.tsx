@@ -112,6 +112,7 @@ const CreateUserDialog = ({ closeDialog, token }) => {
           },
         },
       });
+      console.log(password);
       toast.success(`Usuario creado correctamente con la clave ${password}`, {
         autoClose: false,
       });

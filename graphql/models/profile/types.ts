@@ -6,6 +6,8 @@ const ProfileTypes = gql`
     phone: String
     address: String
     customImage: String
+    createdAt: Date
+    updatedAt: Date
   }
 
   input ProfileWhereUniqueInput {
