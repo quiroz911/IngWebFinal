@@ -19,7 +19,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const Indexusers = () => {
+const IndexUsers = () => {
   const { data, loading } = useQuery(GET_USERS, {
     fetchPolicy: "cache-and-network",
   });
@@ -207,4 +207,4 @@ const Deleteusers = ({ user, closeDialog }) => {
   );
 };
 
-export default Indexusers;
+export default IndexUsers;

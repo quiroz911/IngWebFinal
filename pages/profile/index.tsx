@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const index = () => {
+const Index = () => {
   const { data: session } = useSession();
   const { data, loading: userLoading } = useQuery(GET_PROFILE, {
     variables: {
@@ -145,4 +145,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

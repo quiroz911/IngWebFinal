@@ -46,7 +46,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const index = ({ token }) => {
+const Index = ({ token }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [openDialog, setOpenDialog] = useState(false);
   const closeDialog = () => {
@@ -151,4 +151,4 @@ const CreateUserDialog = ({ closeDialog, token }) => {
   );
 };
 
-export default index;
+export default Index;

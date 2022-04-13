@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const newDepartment = () => {
+const NewDepartment = () => {
   const router = useRouter();
   const { form, formData, updateFormData } = useFormData(null);
   const [createDepartment, { data, loading }] = useMutation(CREATE_DEPARTMENT, {
@@ -71,4 +71,4 @@ const newDepartment = () => {
   );
 };
 
-export default newDepartment;
+export default NewDepartment;

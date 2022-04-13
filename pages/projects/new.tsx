@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const newProject = () => {
+const NewProject = () => {
   const router = useRouter();
   const { form, formData, updateFormData } = useFormData(null);
   const [createProject, { data, loading }] = useMutation(CREATE_PROJECT, {
@@ -79,4 +79,4 @@ const newProject = () => {
   );
 };
 
-export default newProject;
+export default NewProject;

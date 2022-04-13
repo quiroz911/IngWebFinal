@@ -20,7 +20,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const index = () => {
+const Index = () => {
   const { data, loading } = useQuery(GET_DEPARTMENTS, {
     fetchPolicy: "cache-and-network",
   });
@@ -222,4 +222,4 @@ const DeleteDepartamento = ({ department, closeDialog }) => {
   );
 };
 
-export default index;
+export default Index;

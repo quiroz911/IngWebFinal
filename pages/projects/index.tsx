@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const index = () => {
+const Index = () => {
   const { data, loading } = useQuery(GET_PROJECTS, {
     fetchPolicy: "cache-and-network",
   });
@@ -389,5 +389,5 @@ const EditProjectLeader = ({ project, closeDialog }) => {
   );
 };
 
-export default index;
+export default Index;
 export {ExisteLeader};
