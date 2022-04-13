@@ -10,12 +10,6 @@ const ReactApexChart = dynamic(() => {
 
 },{ssr: false});
 
-export async function getServerSideProps(context) {
-    return {
-      props: { ...(await matchRoles(context)) },
-    };
-  }
-
 const EmployeesDiagram = () => {
   const {data, loading} = useQuery(GET_DIAGRAM_DATA);
   const [options,setOptions] = useState({

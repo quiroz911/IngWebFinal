@@ -15,6 +15,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { matchRoles } from "utils/matchRoles";
+import EmployeesDiagram from "./employeesDiagram";
 
 export async function getServerSideProps(context) {
   return {
@@ -81,6 +82,7 @@ const index = () => {
           </tbody>
         </table>
       </div>
+      <EmployeesDiagram />
     </div>
   );
 };

@@ -26,7 +26,7 @@ const Home: NextPage = () => {
       </PrivateComponent>
         <Link href="/projects" passHref>
           <button className="bg-blue-500 hover:bg-blue-300 rounded-xl px-3 py-2 m-6 text-white text-xl">
-            Projectos
+            Proyectos
           </button>
         </Link>
         <Link href="/departments" passHref>
