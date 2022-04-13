@@ -26,7 +26,7 @@ class MyDocument extends Document {
             src='https://kit.fontawesome.com/433667d0d8.js'
             crossOrigin='anonymous'
           />
-          <link href="/dist/output.css" rel="stylesheet"></link>
+          <link href='/dist/output.css' rel='stylesheet' />
         </Head>
         <body style={{ background: '#fff' }}>
           <Main />

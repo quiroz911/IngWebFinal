@@ -1,14 +1,14 @@
-import React from "react";
-import { matchRoles } from "utils/matchRoles";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_PROFILE } from "graphql/queries/users";
-import useFormData from "hooks/useFormData";
-import { UPDATE_IMAGE, UPSERT_PROFILE } from "graphql/mutations/profile";
-import FileUpload from "@components/FileUpload";
-import { toast } from "react-toastify";
-import { ButtonLoading } from "@components/ButtonLoading";
+import React from 'react';
+import { matchRoles } from 'utils/matchRoles';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_PROFILE } from 'graphql/queries/users';
+import useFormData from 'hooks/useFormData';
+import { UPDATE_IMAGE, UPSERT_PROFILE } from 'graphql/mutations/profile';
+import FileUpload from '@components/FileUpload';
+import { toast } from 'react-toastify';
+import { ButtonLoading } from '@components/ButtonLoading';
 
 export async function getServerSideProps(context) {
   return {
@@ -20,14 +20,14 @@ const Index = () => {
   const { data: session } = useSession();
   const { data, loading: userLoading } = useQuery(GET_PROFILE, {
     variables: {
-        email: session.user.email
+      email: session.user.email,
     },
   });
   const { form, formData, updateFormData } = useFormData(null);
   const [upsertProfile, { loading }] = useMutation(UPSERT_PROFILE, {
     refetchQueries: [GET_PROFILE],
   });
-  const [updateImage, { loading: imageLoading }] = useMutation(UPDATE_IMAGE, {
+  const [updateImage] = useMutation(UPDATE_IMAGE, {
     refetchQueries: [GET_PROFILE],
   });
 
@@ -74,9 +74,7 @@ const Index = () => {
         <div className='flex flex-col items-center'>
           <Image
             className='rounded-full '
-            src={
-              data.getUser.profile?.customImage ?? data.getUser.image
-            }
+            src={data.getUser.profile?.customImage ?? data.getUser.image}
             height={120}
             width={120}
             alt='user-profile'
@@ -90,7 +88,7 @@ const Index = () => {
             />
           </div>
         </div>
-        <hr/>
+        <hr />
 
         <div className='grid grid-cols-2 gap-5 my-3'>
           <label htmlFor='email' className='flex flex-col'>
@@ -112,33 +110,29 @@ const Index = () => {
             />
           </label>
           <label htmlFor='phone' className='flex flex-col'>
-          <hr/>
+            <hr />
             <span>Phone</span>
             <input
               type='phone'
               name='phone'
               defaultValue={data.getUser.profile?.phone ?? ''}
-              className="rounded-lg border-slate-800 border-2"
+              className='rounded-lg border-slate-800 border-2'
             />
           </label>
           <label htmlFor='address' className='flex flex-col'>
-          <hr/>
+            <hr />
             <span>Address</span>
             <input
               type='address'
               name='address'
               defaultValue={data.getUser.profile?.address ?? ''}
-              className="rounded-lg border-slate-800 border-2"
+              className='rounded-lg border-slate-800 border-2'
             />
           </label>
         </div>
 
         <div className='w-full flex justify-center'>
-          <ButtonLoading
-            loading={loading}
-            text='Update Profile'
-            isSubmit
-          />
+          <ButtonLoading loading={loading} text='Update Profile' isSubmit />
         </div>
       </form>
     </div>

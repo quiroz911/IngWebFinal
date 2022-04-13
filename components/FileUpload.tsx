@@ -5,9 +5,7 @@ const FileUpload = ({
   name,
   type = 'auto',
   text = 'Open',
-  onSuccess = (url) => {
-    return url;
-  },
+  onSuccess = (url) => url,
 }) => {
   const [fileLink, setFileLink] = useState<string>(null);
   const successCallback = (e) => {

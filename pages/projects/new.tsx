@@ -1,14 +1,13 @@
-import { useRouter } from "next/router";
-import React from "react";
-import useFormData from "hooks/useFormData";
-import { CREATE_PROJECT } from "graphql/mutations/project";
-import { GET_PROJECTS } from "graphql/queries/projects";
-import { useMutation } from "@apollo/client";
-import { toast } from "react-toastify";
-import Link from "next/link";
-import { ButtonLoading } from "@components/ButtonLoading";
-import PrivateComponent from "@components/PrivateComponent";
-import { matchRoles } from "utils/matchRoles";
+import { useRouter } from 'next/router';
+import React from 'react';
+import useFormData from 'hooks/useFormData';
+import { CREATE_PROJECT } from 'graphql/mutations/project';
+import { GET_PROJECTS } from 'graphql/queries/projects';
+import { useMutation } from '@apollo/client';
+import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { ButtonLoading } from '@components/ButtonLoading';
+import { matchRoles } from 'utils/matchRoles';
 
 export async function getServerSideProps(context) {
   return {
@@ -35,45 +34,44 @@ const NewProject = () => {
         },
       },
     });
-    toast.success("Proyecto creado con éxito");
-    router.push("/projects");
+    toast.success('Proyecto creado con éxito');
+    router.push('/projects');
     // form.current.reset();
   };
   return (
-    <div className="flex flex-col items-center p-10">
-      
+    <div className='flex flex-col items-center p-10'>
       {data && <div>data loaded</div>}
-      <Link href="/projects" passHref>
-        <i className="fas fa-arrow-left self-start" />
+      <Link href='/projects' passHref>
+        <i className='fas fa-arrow-left self-start' />
       </Link>
-      <h2 className="text-bold text-3xl">Nuevo Proyecto</h2>
+      <h2 className='text-bold text-3xl'>Nuevo Proyecto</h2>
       <form
         ref={form}
         onChange={updateFormData}
         onSubmit={submitForm}
-        className="flex flex-col my-4"
+        className='flex flex-col my-4'
       >
-        <label className="flex flex-col" htmlFor="name">
+        <label className='flex flex-col' htmlFor='name'>
           <span>Nombre del Proyecto</span>
           <input
-            name="name"
-            type="text"
-            className="rounded-xl my-3 text-center border-2 border-slate-700"
+            name='name'
+            type='text'
+            className='rounded-xl my-3 text-center border-2 border-slate-700'
           />
           <span>Fecha de inicio</span>
           <input
-            name="start_date"
-            type="date"
-            className="rounded-xl my-3 text-center border-2 border-slate-700"
+            name='start_date'
+            type='date'
+            className='rounded-xl my-3 text-center border-2 border-slate-700'
           />
           <span>fecha de finalización</span>
           <input
-            name="end_date"
-            type="date"
-            className="rounded-xl my-3 text-center border-2 border-slate-700"
+            name='end_date'
+            type='date'
+            className='rounded-xl my-3 text-center border-2 border-slate-700'
           />
         </label>
-        <ButtonLoading isSubmit loading={loading} text="Crear Proyecto" />
+        <ButtonLoading isSubmit loading={loading} text='Crear Proyecto' />
       </form>
     </div>
   );

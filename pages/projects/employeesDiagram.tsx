@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { matchRoles } from "utils/matchRoles";
-import dynamic from "next/dynamic";
-import { useQuery } from "@apollo/client";
-import { GET_DIAGRAM_DATA } from "graphql/queries/employeesDiagram";
-//import ReactApexChart from 'react-apexcharts';
+import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useQuery } from '@apollo/client';
+import { GET_DIAGRAM_DATA } from 'graphql/queries/employeesDiagram';
+// import ReactApexChart from 'react-apexcharts';
 
-const ReactApexChart = dynamic(
-  () => {
-    return import("react-apexcharts");
-  },
-  { ssr: false }
-);
+const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 const EmployeesDiagram = () => {
   const { data, loading } = useQuery(GET_DIAGRAM_DATA);
@@ -18,12 +14,12 @@ const EmployeesDiagram = () => {
     annotations: {},
     chart: {
       height: 350,
-      type: "bar",
+      type: 'bar',
     },
     plotOptions: {
       bar: {
         borderRadius: 10,
-        columnWidth: "50%",
+        columnWidth: '50%',
       },
     },
     dataLabels: {
@@ -35,7 +31,7 @@ const EmployeesDiagram = () => {
 
     grid: {
       row: {
-        colors: ["#fff", "#f2f2f2"],
+        colors: ['#fff', '#f2f2f2'],
       },
     },
     xaxis: {
@@ -43,18 +39,18 @@ const EmployeesDiagram = () => {
         rotate: -45,
       },
       categories: [],
-      tickPlacement: "on",
+      tickPlacement: 'on',
     },
     yaxis: {
       title: {
-        text: "Cantidad de empleados",
+        text: 'Cantidad de empleados',
       },
     },
     fill: {
-      type: "gradient",
+      type: 'gradient',
       gradient: {
-        shade: "light",
-        type: "horizontal",
+        shade: 'light',
+        type: 'horizontal',
         shadeIntensity: 0.25,
         gradientToColors: undefined,
         inverseColors: true,
@@ -79,15 +75,15 @@ const EmployeesDiagram = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className='w-full flex flex-col items-center'>
       <h1>Diagrama del número de empleados por proyecto</h1>
-      <div className="w-full">
+      <div className='w-full'>
         <ReactApexChart
           options={options}
           series={series}
-          type="bar"
+          type='bar'
           height={350}
-        />{" "}
+        />{' '}
       </div>
     </div>
   );
