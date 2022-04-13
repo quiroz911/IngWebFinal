@@ -57,7 +57,7 @@ const IndexUsers = () => {
                   <td>{c.role.name}</td>
                   <td>{c.updatedAt}</td>
                   <td>{c.createdAt}</td>
-                  <EditDeleteButtons user={c} />
+                  <EditDeleteButtons key={c.id} user={c} />
                 </tr>
               );
             })}
