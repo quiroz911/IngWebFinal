@@ -69,7 +69,7 @@ const Index = () => {
                   <td>{c.end_date.split("T").shift()}</td>
                   <td key={c.id} className="flex flex-col">
                     {c.employees.map((e) => {
-                      return <p>•{e.name}</p>;
+                      return <p key={e.id}>•{e.name}</p>;
                     })}
                   </td>
                   <PrivateComponent roleList={["administrator", "leader"]}>

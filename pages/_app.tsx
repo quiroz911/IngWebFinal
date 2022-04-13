@@ -10,6 +10,7 @@ import {
 import { PublicLayout } from "../layout/PublicLayout";
 import { SessionProvider } from "next-auth/react";
 import NotAuthorized from "@components/NotAuthorized";
+import Head from "next/head";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -25,9 +26,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <head>
+        <Head>
           <title>Proyecto final</title>
-        </head>
+        </Head>
         <PublicLayout pageAuth={pageProps.auth}>
           <Component {...pageProps} />
         </PublicLayout>
