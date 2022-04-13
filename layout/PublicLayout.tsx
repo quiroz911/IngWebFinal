@@ -1,5 +1,6 @@
 import NotAuthorized from "@components/NotAuthorized";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 import Loading from "react-loading";
 
@@ -26,7 +27,17 @@ export const PublicLayout = ({ pageAuth, children }: any) => {
         >
           Cerrar Sesion
         </button>
-        <h3 className="text-lg"> Bienvenido { session.user.name } !</h3>
+        <Link href="/profile">
+          <button className="bg-green-500 hover:bg-green-400 m-3 rounded-xl p-3 px-5 text-white">
+            Perfil
+          </button>
+        </Link>
+        <Link href="/">
+          <button className="bg-blue-500 hover:bg-blue-400 m-3 rounded-xl p-3 px-5 text-white">
+          <i className="fa fa-home" aria-hidden="true"></i>
+          </button>
+        </Link>
+        <h3 className="text-lg"> Bienvenido {session.user.name} !</h3>
       </div>
       {children}
     </div>
