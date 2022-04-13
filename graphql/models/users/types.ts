@@ -23,7 +23,7 @@ const UserTypes = gql`
   input CreateUserAccountInput {
     email: String!
     name: String!
-    image: Strng!
+    image: String!
     auth0Id: String!
     role: String!
   }
